@@ -1,11 +1,11 @@
-import "./App.css";
+import { APP_NAME, APP_DESCRIPTION } from "./utils/constants";
 
 function App() {
   return (
     <>
       <div>
-        <h1>GameShelf</h1>
-        <p>Tu biblioteca personal de videojuegos</p>
+        <h1>{APP_NAME}</h1>
+        <p>{APP_DESCRIPTION}</p>
       </div>
     </>
   );
