@@ -1,0 +1,113 @@
+.header {
+  width: 100%;
+  background: rgba(11, 15, 32, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  min-height: 68px;
+  margin: 0 var(--spacing-xl);
+  padding: 0 var(--spacing-xl);
+
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+}
+
+/* Logotipo */
+.logoLink {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+}
+
+.logo {
+  display: block;
+  width: 180px;
+  height: auto;
+}
+
+/* Navegación */
+.navList {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-sm);
+
+  min-height: 40px;
+  padding: 10px 16px;
+
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+
+  border-radius: var(--radius-md);
+
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+/* Hover */
+.navLink:hover {
+  color: var(--color-text);
+  background-color: var(--color-surface-hover);
+}
+
+/* Enlace activo */
+.activeLink {
+  color: var(--color-primary-soft);
+  background-color: rgba(106, 60, 235, 0.25);
+}
+
+.activeLink:hover {
+  color: var(--color-text);
+  background-color: rgba(106, 60, 235, 0.35);
+}
+
+/* Accesibilidad */
+.navLink:focus-visible,
+.logoLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container {
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+  }
+
+  .logo {
+    width: 160px;
+  }
+
+  .navList {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .navLink {
+    padding: 8px 12px;
+    font-size: var(--font-size-sm);
+  }
+}
