@@ -1,15 +1,13 @@
-import { APP_NAME, APP_DESCRIPTION } from "./utils/constants";
+// import { APP_NAME, APP_DESCRIPTION } from "./utils/constants";
+import Header from "./components/Header/Header";
+import styles from "./App.module.css";
 
 function App() {
   return (
-    <>
-      <div>
-        <h1>{APP_NAME}</h1>
-        <p>{APP_DESCRIPTION}</p>
-        <a>Enlace de prueba</a>
-        <button>Botón de prueba</button>
-      </div>
-    </>
+    <div className={styles.app} id="inicio">
+      <Header />
+      <main className={styles.main}></main>
+    </div>
   );
 }
 
