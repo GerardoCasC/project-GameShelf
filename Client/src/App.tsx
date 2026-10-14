@@ -6,6 +6,8 @@ function App() {
       <div>
         <h1>{APP_NAME}</h1>
         <p>{APP_DESCRIPTION}</p>
+        <a>Enlace de prueba</a>
+        <button>Botón de prueba</button>
       </div>
     </>
   );
