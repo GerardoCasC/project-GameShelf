@@ -1,0 +1,164 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 260" role="img" aria-labelledby="title desc">
+  <title id="title">Runaria</title>
+  <desc id="desc">Logo de Runaria con emblema rúnico y subtítulo Tu biblioteca de videojuegos</desc>
+
+  <defs>
+    <linearGradient id="goldLavender" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F6E7B2" />
+      <stop offset="35%" stop-color="#F4E9FF" />
+      <stop offset="68%" stop-color="#C9B4FF" />
+      <stop offset="100%" stop-color="#6A3CEB" />
+    </linearGradient>
+
+    <linearGradient id="lavenderPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4E9FF" />
+      <stop offset="38%" stop-color="#D8CDFF" />
+      <stop offset="72%" stop-color="#9B83FF" />
+      <stop offset="100%" stop-color="#5B2FD6" />
+    </linearGradient>
+
+    <linearGradient id="starGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF7D6" />
+      <stop offset="100%" stop-color="#EED9B7" />
+    </linearGradient>
+
+    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="2.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- EMBLEMA -->
+  <g transform="translate(20,10)">
+    <!-- arco exterior -->
+    <path
+      d="M170 18
+         C215 18 252 55 252 100
+         C252 138 226 171 190 180
+         L183 161
+         C211 153 231 128 231 100
+         C231 67 203 39 170 39
+         C137 39 109 67 109 100
+         C109 127 128 151 155 160
+         L149 179
+         C112 169 88 137 88 100
+         C88 55 125 18 170 18Z"
+      fill="url(#lavenderPurple)"
+      stroke="#321B77"
+      stroke-width="2"
+    />
+
+    <!-- eje vertical -->
+    <path
+      d="M162 34
+         L178 34
+         L178 144
+         C178 165 170 183 155 201
+         L143 192
+         C155 177 162 163 162 144Z"
+      fill="url(#goldLavender)"
+      stroke="#321B77"
+      stroke-width="2"
+    />
+
+    <!-- punta superior -->
+    <path
+      d="M170 0
+         L184 34
+         L170 27
+         L156 34Z"
+      fill="url(#goldLavender)"
+      stroke="#321B77"
+      stroke-width="2"
+    />
+
+    <!-- punta inferior -->
+    <path
+      d="M170 236
+         L184 204
+         L170 211
+         L156 204Z"
+      fill="url(#goldLavender)"
+      stroke="#321B77"
+      stroke-width="2"
+    />
+
+    <!-- cola curva -->
+    <path
+      d="M170 130
+         C147 122 126 128 116 143
+         C105 159 109 179 126 192
+         C140 202 154 212 165 229
+         L181 219
+         C171 203 156 192 144 184
+         C132 176 128 164 134 155
+         C141 145 156 143 173 150Z"
+      fill="url(#lavenderPurple)"
+      stroke="#321B77"
+      stroke-width="2"
+    />
+
+    <!-- media luna interior -->
+    <path
+      d="M193 55
+         C219 64 231 92 221 117
+         C213 137 196 152 174 156
+         C188 147 196 133 196 117
+         C196 95 182 75 161 66
+         C170 56 181 52 193 55Z"
+      fill="url(#lavenderPurple)"
+      stroke="#321B77"
+      stroke-width="2"
+    />
+
+    <!-- estrella central -->
+    <g filter="url(#softGlow)">
+      <path
+        d="M170 62
+           L182 90
+           L210 100
+           L182 110
+           L170 138
+           L158 110
+           L130 100
+           L158 90Z"
+        fill="url(#starGradient)"
+        stroke="#6A3CEB"
+        stroke-width="2"
+      />
+    </g>
+  </g>
+
+  <!-- WORDMARK -->
+  <g transform="translate(290,42)">
+    <text
+      x="0"
+      y="92"
+      fill="url(#goldLavender)"
+      stroke="#321B77"
+      stroke-width="1.2"
+      paint-order="stroke fill"
+      font-family="Georgia, 'Times New Roman', serif"
+      font-size="118"
+      font-weight="700"
+      letter-spacing="0.5"
+    >
+      Runaria
+    </text>
+
+    <text
+      x="6"
+      y="150"
+      fill="#2F1C73"
+      font-family="Inter, 'Segoe UI', Arial, sans-serif"
+      font-size="40"
+      font-weight="500"
+      letter-spacing="1"
+    >
+      Tu biblioteca de videojuegos
+    </text>
+  </g>
+</svg>

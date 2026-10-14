@@ -1,0 +1,38 @@
+<svg width="320" height="420" viewBox="0 0 320 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="320" height="420" rx="24" fill="#202132"/>
+  <rect x="16" y="16" width="288" height="388" rx="18" fill="#2B2C42" stroke="#39384F" stroke-width="2"/>
+
+  <circle cx="160" cy="150" r="64" fill="#11121B"/>
+  <path
+    d="M128 144C128 126.327 142.327 112 160 112C177.673 112 192 126.327 192 144V148H200C208.837 148 216 155.163 216 164V180C216 188.837 208.837 196 200 196H120C111.163 196 104 188.837 104 180V164C104 155.163 111.163 148 120 148H128V144Z"
+    fill="#9B83FF"
+  />
+  <rect x="132" y="162" width="24" height="8" rx="4" fill="#F5F3FF"/>
+  <rect x="140" y="154" width="8" height="24" rx="4" fill="#F5F3FF"/>
+  <circle cx="180" cy="166" r="6" fill="#F5F3FF"/>
+  <circle cx="196" cy="178" r="6" fill="#F5F3FF"/>
+
+  <text
+    x="160"
+    y="255"
+    text-anchor="middle"
+    fill="#F5F3FF"
+    font-family="Inter, Arial, sans-serif"
+    font-size="24"
+    font-weight="700"
+  >
+    GameShelf
+  </text>
+
+  <text
+    x="160"
+    y="286"
+    text-anchor="middle"
+    fill="#B5B1C9"
+    font-family="Inter, Arial, sans-serif"
+    font-size="16"
+    font-weight="400"
+  >
+    Sin portada disponible
+  </text>
+</svg>

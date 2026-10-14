@@ -1,2 +1,2 @@
-export const APP_NAME = "GameShelf";
-export const APP_DESCRIPTION = "Tu biblioteca personal de videojuegos";
+export const APP_NAME = "Runaria";
+export const APP_DESCRIPTION = "Tu biblioteca de videojuegos";
