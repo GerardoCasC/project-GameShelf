@@ -1,14 +1,29 @@
+import { useState } from "react";
 import { Star } from "lucide-react";
 import Header from "./components/Header/Header";
 import { GameGrid } from "./components/GameGrid/GameGrid";
 import gamesData from "./data/games.json";
-import type { Game } from "./types/game";
+import { MyLibrary } from "./components/MyLibrary/MyLibrary";
+import { GameDetails } from "./components/GameDetails/GameDetails";
+import type { Game, GameDetail } from "./types/game";
+import { exampleGameDetail } from "./data/gameDetails";
 import styles from "./App.module.css";
 
-const games: Game[] = gamesData;
-const featuredGames = games.slice(0, 5);
-
 function App() {
+  const games: Game[] = gamesData;
+  const featuredGames = games.slice(0, 5);
+
+  const [selectedGame, setSelectedGame] = useState<GameDetail | null>(null);
+
+  const openGameDetails = (game: Game) => {
+    setSelectedGame(
+      game.id === exampleGameDetail.id ? exampleGameDetail : game,
+    );
+  };
+
+  const closeGameDetails = () => {
+    setSelectedGame(null);
+  };
   return (
     <div className={styles.app} id="inicio">
       <Header />
@@ -30,9 +45,12 @@ function App() {
               Videojuegos destacados
             </h1>
           </div>
-
-          <GameGrid games={featuredGames} />
+          <GameGrid games={featuredGames} onOpenDetails={openGameDetails} />
         </section>
+        <MyLibrary onOpenDetails={openGameDetails} />
+        {selectedGame && (
+          <GameDetails game={selectedGame} onClose={closeGameDetails} />
+        )}
       </main>
     </div>
   );
