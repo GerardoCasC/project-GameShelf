@@ -9,3 +9,17 @@ export interface Game {
     name: string;
   }[];
 }
+
+export interface GameDetail extends Game {
+  description_raw?: string;
+  platforms?: {
+    platform: {
+      id: number;
+      name: string;
+    };
+  }[];
+  developers?: {
+    id: number;
+    name: string;
+  }[];
+}

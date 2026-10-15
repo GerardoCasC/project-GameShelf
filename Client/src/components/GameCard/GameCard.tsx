@@ -5,9 +5,10 @@ import styles from "./GameCard.module.css";
 
 interface GameCardProps {
   game: Game;
+  onOpenDetails: (game: Game) => void;
 }
 
-function GameCard({ game }: GameCardProps) {
+function GameCard({ game, onOpenDetails }: GameCardProps) {
   const { name, background_image, released, rating, genres } = game;
 
   const year = released ? new Date(released).getUTCFullYear() : null;
@@ -15,12 +16,18 @@ function GameCard({ game }: GameCardProps) {
   return (
     <article className={styles.card}>
       <div className={styles.imageContainer}>
-        <img
-          className={styles.image}
-          src={background_image ?? fallbackGame}
-          alt={`Portada de ${name}`}
-        />
-
+        <button
+          type="button"
+          className={styles.imageButton}
+          onClick={() => onOpenDetails(game)}
+          aria-label={`Ver detalles de ${name}`}
+        >
+          <img
+            className={styles.image}
+            src={background_image ?? fallbackGame}
+            alt={`Portada de ${name}`}
+          />
+        </button>
         <button
           type="button"
           className={styles.favoriteButton}
@@ -32,7 +39,15 @@ function GameCard({ game }: GameCardProps) {
       </div>
 
       <div className={styles.content}>
-        <h2 className={styles.title}>{name}</h2>
+        <h2 className={styles.title}>
+          <button
+            type="button"
+            className={styles.titleButton}
+            onClick={() => onOpenDetails(game)}
+          >
+            {name}
+          </button>
+        </h2>
 
         <div className={styles.meta}>
           {year !== null && !Number.isNaN(year) && (
