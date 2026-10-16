@@ -1,7 +1,7 @@
 import { useId } from "react";
 import type { ReactNode } from "react";
 import type { Game } from "../../types/game";
-import GameCard from "../GameCard/GameCard";
+import { GameCard } from "../GameCard/GameCard";
 import styles from "./GameSection.module.css";
 
 interface GameSectionProps {

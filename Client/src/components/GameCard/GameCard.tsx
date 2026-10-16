@@ -8,7 +8,7 @@ interface GameCardProps {
   onOpenDetails: (game: Game) => void;
 }
 
-function GameCard({ game, onOpenDetails }: GameCardProps) {
+export function GameCard({ game, onOpenDetails }: GameCardProps) {
   const { name, background_image, released, rating, genres } = game;
 
   const year = released ? new Date(released).getUTCFullYear() : null;
@@ -89,5 +89,3 @@ function GameCard({ game, onOpenDetails }: GameCardProps) {
     </article>
   );
 }
-
-export default GameCard;
