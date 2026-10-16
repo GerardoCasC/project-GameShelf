@@ -1,0 +1,234 @@
+.about {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+  max-width: 1000px;
+  padding: 24px;
+
+  color: var(--color-text, #f5f3ff);
+  background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);
+
+  border: 1px solid #273450;
+  border-radius: 14px;
+  margin-inline: auto;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+/* Encabezado */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: var(--color-primary, #9b83ff);
+}
+
+.header h1 {
+  margin: 0;
+
+  color: var(--color-text, #f5f3ff);
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+/* Contenido principal */
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Presentación */
+
+.introduction {
+  padding: 24px;
+
+  background: #151f34;
+  border: 1px solid #273450;
+  border-radius: 12px;
+}
+
+.introduction h2 {
+  margin: 0 0 16px;
+
+  color: var(--color-text, #f5f3ff);
+  font-size: 1.3rem;
+  line-height: 1.4;
+}
+
+.introduction p {
+  margin: 0 0 12px;
+
+  color: var(--color-text-secondary, #b0bdd4);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.introduction p:last-child {
+  margin-bottom: 0;
+}
+
+/* Tecnologías */
+
+.technologies {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  color: var(--color-primary, #9b83ff);
+}
+
+.sectionHeading h2 {
+  margin: 0;
+
+  color: var(--color-text, #f5f3ff);
+  font-size: 1.2rem;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.techItem {
+  padding: 9px 14px;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: #232953;
+
+  border: 1px solid #414b91;
+  border-radius: 8px;
+
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* Enlace al proyecto */
+
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+
+  padding-top: 24px;
+  border-top: 1px solid #273450;
+}
+
+.links h2 {
+  margin: 0;
+
+  color: var(--color-text, #f5f3ff);
+  font-size: 1.2rem;
+}
+
+.links p {
+  margin: 0;
+
+  color: var(--color-text-secondary, #b0bdd4);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.githubLink {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  min-height: 44px;
+  padding: 12px 18px;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: var(--color-button-bg, #232953);
+
+  border: 1px solid var(--color-button-border, #414b91);
+  border-radius: 9px;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.githubLink:hover {
+  background: var(--color-button-hover, #343b78);
+  border-color: #8271dc;
+}
+
+.githubLink:focus-visible {
+  outline: 2px solid var(--color-primary-soft, #d8cdff);
+  outline-offset: 3px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .about {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .introduction {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about {
+    padding: 16px;
+    gap: 18px;
+  }
+
+  .header h1 {
+    font-size: 1.25rem;
+  }
+
+  .introduction {
+    padding: 16px;
+  }
+
+  .introduction h2 {
+    font-size: 1.15rem;
+  }
+
+  .introduction p,
+  .links p {
+    font-size: 0.875rem;
+  }
+
+  .techList {
+    gap: 8px;
+  }
+
+  .techItem {
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .githubLink {
+    width: 100%;
+  }
+}
