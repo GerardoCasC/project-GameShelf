@@ -77,6 +77,12 @@
   background-color: rgba(106, 60, 235, 0.35);
 }
 
+.navLink:focus-visible,
+.logoLink:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+}
+
 /* Responsive */
 @media (max-width: 640px) {
   .container {
@@ -98,5 +104,34 @@
   .navLink {
     padding: 8px 12px;
     font-size: var(--font-size-sm);
+  }
+}
+@media (max-width: 400px) {
+  .container nav {
+    width: 100%;
+  }
+
+  .navList {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    width: 100%;
+  }
+
+  .navList li {
+    min-width: 0;
+  }
+
+  .navLink {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 5px;
+    padding: 8px 4px;
+
+    font-size: 0.75rem;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
   }
 }
