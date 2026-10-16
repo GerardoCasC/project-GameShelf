@@ -27,7 +27,8 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
     const dialog = dialogRef.current;
 
     if (!dialog) return;
-
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     if (!dialog.open) {
       dialog.showModal();
     }
@@ -36,6 +37,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
       if (dialog.open) {
         dialog.close();
       }
+      document.body.style.overflow = previousOverflow;
     };
   }, []);
 
