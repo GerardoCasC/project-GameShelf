@@ -1,37 +1,43 @@
-import { House, BookOpen } from "lucide-react";
+import { House, BookOpen, UserRound } from "lucide-react";
+import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.webp";
 import styles from "./Header.module.css";
 
-function Header() {
+export function Header() {
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    `${styles.navLink} ${isActive ? styles.activeLink : ""}`;
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
-        <a
-          href="#inicio"
+        <Link
+          to="/"
           className={styles.logoLink}
           aria-label="Ir al inicio de Runaria"
         >
           <img src={logo} alt="Runaria" className={styles.logo} />
-        </a>
+        </Link>
 
         <nav aria-label="Navegación principal">
           <ul className={styles.navList}>
             <li>
-              <a
-                href="#inicio"
-                className={`${styles.navLink} ${styles.activeLink}`}
-                aria-current="location"
-              >
+              <NavLink to="/" end className={getNavLinkClass}>
                 <House size={18} aria-hidden="true" />
                 <span>Inicio</span>
-              </a>
+              </NavLink>
             </li>
 
             <li>
-              <a href="#biblioteca" className={styles.navLink}>
+              <NavLink to="/library" className={getNavLinkClass}>
                 <BookOpen size={18} aria-hidden="true" />
                 <span>Mi biblioteca</span>
-              </a>
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/about" className={getNavLinkClass}>
+                <UserRound size={18} aria-hidden="true" />
+                <span>Sobre el autor</span>
+              </NavLink>
             </li>
           </ul>
         </nav>
@@ -39,5 +45,3 @@ function Header() {
     </header>
   );
 }
-
-export default Header;

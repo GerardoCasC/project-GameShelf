@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { Star } from "lucide-react";
-import Header from "./components/Header/Header";
-import { GameGrid } from "./components/GameGrid/GameGrid";
-import gamesData from "./data/games.json";
-import { MyLibrary } from "./components/MyLibrary/MyLibrary";
+import { Route, Routes } from "react-router-dom";
+import { Home } from "./pages/Home/Home";
+import { Header } from "./components/Header/Header";
+import { About } from "./pages/About/About";
+import { MyLibrary } from "./pages/MyLibrary/MyLibrary";
 import { GameDetails } from "./components/GameDetails/GameDetails";
-import type { Game, GameDetail } from "./types/game";
-import { exampleGameDetail } from "./data/gameDetails";
-import styles from "./App.module.css";
 
-function App() {
+import type { Game, GameDetail } from "./types/game";
+import styles from "./App.module.css";
+import gamesData from "./data/games.json";
+import { exampleGameDetail } from "./data/gameDetails";
+export function App() {
   const games: Game[] = gamesData;
   const featuredGames = games.slice(0, 5);
 
@@ -27,27 +28,22 @@ function App() {
   return (
     <div className={styles.app} id="inicio">
       <Header />
-
       <main className={styles.main}>
-        <section
-          className={styles.featuredSection}
-          aria-labelledby="featured-title"
-        >
-          <div className={styles.sectionHeader}>
-            <Star
-              size={20}
-              fill="currentColor"
-              className={styles.sectionIcon}
-              aria-hidden="true"
-            />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <Home games={featuredGames} onOpenDetails={openGameDetails} />
+            }
+          />
 
-            <h1 id="featured-title" className={styles.sectionTitle}>
-              Videojuegos destacados
-            </h1>
-          </div>
-          <GameGrid games={featuredGames} onOpenDetails={openGameDetails} />
-        </section>
-        <MyLibrary onOpenDetails={openGameDetails} />
+          <Route
+            path="/library"
+            element={<MyLibrary onOpenDetails={openGameDetails} />}
+          />
+          <Route path="/about" element={<About />} />
+        </Routes>
+
         {selectedGame && (
           <GameDetails game={selectedGame} onClose={closeGameDetails} />
         )}
@@ -55,5 +51,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

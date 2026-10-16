@@ -1,8 +1,6 @@
 .header {
   width: 100%;
   background: rgba(11, 15, 32, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -22,8 +20,6 @@
 .logoLink {
   display: inline-flex;
   align-items: center;
-  flex-shrink: 0;
-  border-radius: var(--radius-sm);
 }
 
 .logo {
@@ -79,13 +75,6 @@
 .activeLink:hover {
   color: var(--color-text);
   background-color: rgba(106, 60, 235, 0.35);
-}
-
-/* Accesibilidad */
-.navLink:focus-visible,
-.logoLink:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
 }
 
 /* Responsive */
