@@ -1,7 +1,23 @@
 .header {
   width: 100%;
-  background: rgba(11, 15, 32, 0.9);
-  border-bottom: 1px solid var(--color-border);
+
+  background: linear-gradient(90deg, #0a1020 0%, #10152b 55%, #171831 100%);
+
+  border-bottom: 1px solid #252a44;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+  width: 100%;
+
+  background: rgba(11, 15, 32, 0.65);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.header.main {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .container {
@@ -68,8 +84,11 @@
 
 /* Enlace activo */
 .activeLink {
-  color: var(--color-primary-soft);
-  background-color: rgba(106, 60, 235, 0.25);
+  color: #f5f3ff;
+
+  background: linear-gradient(135deg, #30216d 0%, #442b91 100%);
+
+  box-shadow: 0 2px 12px rgba(106, 60, 235, 0.15);
 }
 
 .activeLink:hover {
@@ -106,7 +125,7 @@
     font-size: var(--font-size-sm);
   }
 }
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .container nav {
     width: 100%;
   }
