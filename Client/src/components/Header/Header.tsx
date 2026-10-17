@@ -3,12 +3,16 @@ import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.webp";
 import styles from "./Header.module.css";
 
-export function Header() {
+interface HeaderProps {
+  overlay?: boolean;
+}
+
+export function Header({ overlay = false }: HeaderProps) {
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
     `${styles.navLink} ${isActive ? styles.activeLink : ""}`;
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${overlay ? styles.main : ""}`}>
       <div className={styles.container}>
         <Link
           to="/"
