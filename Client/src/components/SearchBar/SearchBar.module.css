@@ -46,7 +46,6 @@
 
 .input:focus-visible {
   border-color: var(--color-primary);
-  outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
 
@@ -60,8 +59,8 @@
   min-height: 52px;
   padding: 0 18px;
 
-  color: #f8f7ff;
-  background: linear-gradient(135deg, #6d4aff 0%, #8b5cf6 100%);
+  color: var(--color-text);
+  background-color: rgba(106, 60, 235, 0.55);
 
   border: 1px solid rgba(156, 120, 255, 0.9);
   border-radius: 14px;
