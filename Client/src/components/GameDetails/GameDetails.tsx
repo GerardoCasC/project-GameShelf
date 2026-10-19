@@ -64,11 +64,6 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
         timeZone: "UTC",
       })
     : null;
-
-  const hasAdditionalInfo =
-    (developers && developers.length > 0) ||
-    (platforms && platforms.length > 0);
-
   return (
     <dialog
       ref={dialogRef}
@@ -122,7 +117,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
               )}
             </div>
 
-            {genres && genres.length > 0 && (
+            {!!genres?.length && (
               <ul className={styles.genreList}>
                 {genres.map((genre) => (
                   <li key={genre.id} className={styles.genre}>
@@ -132,30 +127,19 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
               </ul>
             )}
 
-            {description_raw && (
-              <section className={styles.description}>
-                <h3>Acerca del juego</h3>
-                <p>{description_raw}</p>
-              </section>
-            )}
-
-            {hasAdditionalInfo && (
+            {!!(developers?.length || platforms?.length) && (
               <section className={styles.additionalInfo}>
                 <h3>Información adicional</h3>
 
                 <div className={styles.metadata}>
-                  {developers && developers.length > 0 && (
+                  {!!developers?.length && (
                     <div>
                       <h4>Desarrollador</h4>
-                      <p>
-                        {developers
-                          .map((developer) => developer.name)
-                          .join(", ")}
-                      </p>
+                      <p>{developers.map((dev) => dev.name).join(", ")}</p>
                     </div>
                   )}
 
-                  {platforms && platforms.length > 0 && (
+                  {!!platforms?.length && (
                     <div>
                       <h4>Plataformas</h4>
                       <p>
@@ -186,6 +170,12 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
             </div>
           </div>
         </div>
+        {!!description_raw?.trim() && (
+          <section className={styles.description}>
+            <h3>Acerca del juego</h3>
+            <p>{description_raw}</p>
+          </section>
+        )}
       </article>
     </dialog>
   );

@@ -72,6 +72,10 @@
 /* Contenido del modal */
 
 .details {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+
   padding: 8px 24px 28px;
 }
 
@@ -198,10 +202,10 @@
 
 .description p {
   margin: 0;
-
-  color: var(--color-text-secondary, #b7c3dc);
-  font-size: 0.875rem;
-  line-height: 1.7;
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 /* Información adicional */
