@@ -3,8 +3,13 @@ import { Star, Search } from "lucide-react";
 import { HomeHero } from "./HomeHero";
 import { PageLayout } from "../../components/PageLayout/PageLayout";
 import { GameSection } from "../../components/GameSection/GameSection";
+import { GameFilters } from "../../components/GameFilters/GameFilters";
+import { Loading } from "../../components/Loading/Loading";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 import { rawgApi } from "../../utils/rawgApi";
+import { useAsyncRequest } from "../../hooks/useAsyncRequest";
 import type { Game } from "../../types/game";
+import type { FilterOptions, RawgGamesResponse } from "../../types/rawg";
 import styles from "./Home.module.css";
 
 interface HomeProps {
@@ -12,50 +17,74 @@ interface HomeProps {
 }
 
 export function Home({ onOpenDetails }: HomeProps) {
+  //  Games  //
   const [games, setGames] = useState<Game[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
+  const {
+    status: catalogStatus,
+    error: catalogError,
+    execute: loadCatalog,
+  } = useAsyncRequest<RawgGamesResponse>();
+
+  const isLoading =
+    page === 1 && (catalogStatus === "idle" || catalogStatus === "loading");
+  const isLoadingMore = page > 1 && catalogStatus === "loading";
+  const error = page === 1 ? catalogError : null;
+  const loadMoreError = page > 1 ? catalogError : null;
+
+  function handleLoadMore() {
+    if (!hasMore || catalogStatus === "loading") return;
+
+    if (loadMoreError) {
+      setRetryCount((previous) => previous + 1);
+    } else {
+      setPage((previous) => previous + 1);
+    }
+  }
+
+  //  Filters //
+  const [selectedGenre, setSelectedGenre] = useState("");
+  const [selectedPlatform, setSelectedPlatform] = useState("");
+
+  const {
+    data: filterOptions,
+    status: filtersStatus,
+    error: filtersError,
+    execute: loadFilters,
+  } = useAsyncRequest<FilterOptions>();
+
+  const genres = filterOptions?.genres ?? [];
+  const platforms = filterOptions?.platforms ?? [];
+  const filtersLoading =
+    filtersStatus === "idle" || filtersStatus === "loading";
+
+  function handleGenreChange(genre: string) {
+    setPage(1);
+    setSelectedGenre(genre);
+  }
+
+  function handlePlatformChange(platform: string) {
+    setPage(1);
+    setSelectedPlatform(platform);
+  }
+
+  function handleClearFilters() {
+    setPage(1);
+    setSelectedGenre("");
+    setSelectedPlatform("");
+  }
+
+  // Search //
   const [search, setSearch] = useState({
     query: "",
     requestId: 0,
   });
 
-  useEffect(() => {
-    let active = true;
-
-    async function loadGames() {
-      try {
-        const data = await rawgApi.getGames({
-          search: search.query,
-          page: 1,
-          page_size: 12,
-        });
-
-        if (active) {
-          setGames(data.results);
-        }
-      } catch {
-        if (active) {
-          setError("No se pudieron cargar los videojuegos.");
-        }
-      } finally {
-        if (active) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    void loadGames();
-
-    return () => {
-      active = false;
-    };
-  }, [search]);
-
   function handleSearch(query: string) {
-    setIsLoading(true);
-    setError(null);
+    setPage(1);
 
     setSearch((previous) => ({
       query,
@@ -63,14 +92,88 @@ export function Home({ onOpenDetails }: HomeProps) {
     }));
   }
 
+  useEffect(() => {
+    let active = true;
+
+    async function loadGames() {
+      const result = await loadCatalog(
+        () =>
+          rawgApi.getGames({
+            search: search.query,
+            genres: selectedGenre,
+            platforms: selectedPlatform,
+            page,
+            page_size: 10,
+          }),
+        "No se pudieron cargar los videojuegos.",
+      );
+
+      if (!active || !result) return;
+
+      setGames((previousGames) => {
+        if (page === 1) {
+          return result.results;
+        }
+
+        const existingIds = new Set(previousGames.map((game) => game.id));
+
+        const newGames = result.results.filter(
+          (game) => !existingIds.has(game.id),
+        );
+
+        return [...previousGames, ...newGames];
+      });
+
+      setHasMore(Boolean(result.next));
+    }
+
+    void loadGames();
+
+    return () => {
+      active = false;
+    };
+  }, [search, selectedGenre, selectedPlatform, page, retryCount, loadCatalog]);
+
+  useEffect(() => {
+    void loadFilters(async () => {
+      const [genresData, platformsData] = await Promise.all([
+        rawgApi.getGenres(),
+        rawgApi.getPlatforms(),
+      ]);
+
+      return {
+        genres: genresData.results,
+        platforms: platformsData.results,
+      };
+    }, "No se pudieron cargar los filtros.");
+  }, [loadFilters]);
+
   return (
     <>
       <HomeHero onSearch={handleSearch} />
       <div className={styles.catalog}>
-        <PageLayout>
-          {isLoading && <p role="status">Buscando videojuegos...</p>}
+        <PageLayout
+          sidebar={
+            filtersLoading ? (
+              <Loading message="Cargando filtros..." />
+            ) : filtersError ? (
+              <ErrorMessage message={filtersError} />
+            ) : (
+              <GameFilters
+                genres={genres}
+                platforms={platforms}
+                selectedGenre={selectedGenre}
+                selectedPlatform={selectedPlatform}
+                onGenreChange={handleGenreChange}
+                onPlatformChange={handlePlatformChange}
+                onClear={handleClearFilters}
+              />
+            )
+          }
+        >
+          {isLoading && <Loading message="Buscando videojuegos..." />}
 
-          {error && <p role="alert">{error}</p>}
+          {error && <ErrorMessage message={error} />}
 
           {!isLoading && !error && games.length === 0 && (
             <p role="status">No se encontraron videojuegos.</p>
@@ -92,6 +195,11 @@ export function Home({ onOpenDetails }: HomeProps) {
               }
               games={games}
               onOpenDetails={onOpenDetails}
+              onGenreClick={handleGenreChange}
+              hasMore={hasMore}
+              isLoadingMore={isLoadingMore}
+              loadMoreError={loadMoreError}
+              onLoadMore={handleLoadMore}
             />
           )}
         </PageLayout>

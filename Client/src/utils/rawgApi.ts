@@ -1,5 +1,9 @@
 import { rawgConfig } from "../config/rawg";
-import type { RawgGamesParams, RawgGamesResponse } from "../types/rawg";
+import type {
+  RawgGamesParams,
+  RawgGamesResponse,
+  RawgFilterOptionsResponse,
+} from "../types/rawg";
 import type { GameDetail } from "../types/game";
 
 export class RawgApi {
@@ -57,6 +61,14 @@ export class RawgApi {
   ): Promise<RawgGamesResponse> {
     const searchParams = new URLSearchParams();
 
+    if (params.genres) {
+      searchParams.set("genres", params.genres);
+    }
+
+    if (params.platforms) {
+      searchParams.set("platforms", params.platforms);
+    }
+
     if (params.search) {
       searchParams.set("search", params.search);
     }
@@ -78,6 +90,24 @@ export class RawgApi {
     const response = await this.request(`/games/${id}`);
 
     return this.handleResponse<GameDetail>(response);
+  }
+
+  public async getGenres(): Promise<RawgFilterOptionsResponse> {
+    const response = await this.request(
+      "/genres",
+      new URLSearchParams({ page_size: "40" }),
+    );
+
+    return this.handleResponse<RawgFilterOptionsResponse>(response);
+  }
+
+  public async getPlatforms(): Promise<RawgFilterOptionsResponse> {
+    const response = await this.request(
+      "/platforms",
+      new URLSearchParams({ page_size: "40" }),
+    );
+
+    return this.handleResponse<RawgFilterOptionsResponse>(response);
   }
 }
 

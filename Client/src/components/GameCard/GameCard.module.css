@@ -174,6 +174,10 @@
 }
 
 .genre {
+  display: inline-block;
+  font: inherit;
+  font-size: 0.7rem;
+
   padding: 4px 8px;
 
   color: #c6b8ff;
@@ -190,11 +194,19 @@
     color 150ms ease;
 }
 
-.genre:hover {
+button.genre:hover {
   color: #f5f3ff;
   background: #30375f;
   border-color: #7667be;
+}
+
+button.genre {
   cursor: pointer;
+}
+
+button.genre:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 /* Botón de biblioteca */
@@ -211,6 +223,7 @@
 
   color: var(--color-button-text, #c6b8ff);
   background: var(--color-button-bg, #232953);
+
   border: 1px solid var(--color-button-border, #414b91);
   border-radius: 7px;
 

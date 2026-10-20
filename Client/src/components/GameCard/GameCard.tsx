@@ -6,9 +6,9 @@ import styles from "./GameCard.module.css";
 interface GameCardProps {
   game: Game;
   onOpenDetails: (game: Game) => void;
+  onGenreClick?: (genreId: string) => void;
 }
-
-export function GameCard({ game, onOpenDetails }: GameCardProps) {
+export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
   const { name, background_image, released, rating, genres } = game;
 
   const year = released ? new Date(released).getUTCFullYear() : null;
@@ -70,8 +70,19 @@ export function GameCard({ game, onOpenDetails }: GameCardProps) {
         {genres && genres.length > 0 && (
           <ul className={styles.genreList}>
             {genres.map((genre) => (
-              <li key={genre.id} className={styles.genre}>
-                {genre.name}
+              <li key={genre.id}>
+                {onGenreClick ? (
+                  <button
+                    type="button"
+                    className={styles.genre}
+                    onClick={() => onGenreClick(String(genre.id))}
+                    aria-label={`Filtrar por género ${genre.name}`}
+                  >
+                    {genre.name}
+                  </button>
+                ) : (
+                  <span className={styles.genre}>{genre.name}</span>
+                )}
               </li>
             ))}
           </ul>

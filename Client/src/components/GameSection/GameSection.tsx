@@ -1,7 +1,10 @@
 import { useId } from "react";
+import { GameCard } from "../GameCard/GameCard";
+import { Loading } from "../Loading/Loading";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import type { ReactNode } from "react";
 import type { Game } from "../../types/game";
-import { GameCard } from "../GameCard/GameCard";
+
 import styles from "./GameSection.module.css";
 
 interface GameSectionProps {
@@ -9,6 +12,11 @@ interface GameSectionProps {
   icon?: ReactNode;
   games: Game[];
   onOpenDetails: (game: Game) => void;
+  onGenreClick?: (genreId: string) => void;
+  hasMore?: boolean;
+  isLoadingMore?: boolean;
+  loadMoreError?: string | null;
+  onLoadMore?: () => void;
 }
 
 export function GameSection({
@@ -16,6 +24,11 @@ export function GameSection({
   icon,
   games,
   onOpenDetails,
+  onGenreClick,
+  hasMore = false,
+  isLoadingMore = false,
+  loadMoreError = null,
+  onLoadMore,
 }: GameSectionProps) {
   const titleId = useId();
 
@@ -35,9 +48,32 @@ export function GameSection({
 
       <div className={styles.grid}>
         {games.map((game) => (
-          <GameCard key={game.id} game={game} onOpenDetails={onOpenDetails} />
+          <GameCard
+            key={game.id}
+            game={game}
+            onOpenDetails={onOpenDetails}
+            onGenreClick={onGenreClick}
+          />
         ))}
       </div>
+      {loadMoreError && <ErrorMessage message={loadMoreError} />}
+
+      {isLoadingMore && <Loading message="Cargando..." />}
+
+      {hasMore && onLoadMore && (
+        <button
+          type="button"
+          className={styles.loadMoreButton}
+          onClick={onLoadMore}
+          disabled={isLoadingMore}
+        >
+          {isLoadingMore
+            ? "Cargando..."
+            : loadMoreError
+              ? "Reintentar"
+              : "Ver más"}
+        </button>
+      )}
     </section>
   );
 }

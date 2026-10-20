@@ -11,4 +11,21 @@ export interface RawgGamesParams {
   search?: string;
   page?: number;
   page_size?: number;
+  genres?: string;
+  platforms?: string;
+}
+export interface RawgFilterOption {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface RawgFilterOptionsResponse {
+  count: number;
+  results: RawgFilterOption[];
+}
+
+export interface FilterOptions {
+  genres: RawgFilterOption[];
+  platforms: RawgFilterOption[];
 }
