@@ -1,6 +1,8 @@
-import { useEffect, useRef } from "react";
-import { Heart, Plus, Star, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Heart, Star, X, Bookmark, BookmarkCheck } from "lucide-react";
+import { ConfirmRemoveDialog } from "../ConfirmRemoveDialog/ConfirmRemoveDialog";
 import type { GameDetail } from "../../types/game";
+import { useLibrary } from "../../hooks/useLibrary";
 import fallbackGame from "../../images/fallback-game.svg";
 import styles from "./GameDetails.module.css";
 
@@ -10,6 +12,32 @@ interface GameDetailsProps {
 }
 
 export function GameDetails({ game, onClose }: GameDetailsProps) {
+  const { addGame, removeGame, isGameInLibrary } = useLibrary();
+  const isSaved = isGameInLibrary(game.id);
+
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+
+  function handleLibraryToggle() {
+    if (isSaved) {
+      setShowRemoveConfirm(true);
+      return;
+    }
+
+    addGame({
+      id: game.id,
+      name: game.name,
+      background_image: game.background_image,
+      released: game.released,
+      rating: game.rating,
+      genres: game.genres,
+    });
+  }
+
+  function handleConfirmRemoval() {
+    removeGame(game.id);
+    setShowRemoveConfirm(false);
+  }
+
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   const {
@@ -154,9 +182,21 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
             )}
 
             <div className={styles.actions}>
-              <button type="button" className={styles.addButton}>
-                <Plus size={20} aria-hidden="true" />
-                <span>Añadir a biblioteca</span>
+              <button
+                type="button"
+                className={styles.addButton}
+                onClick={handleLibraryToggle}
+              >
+                {isSaved ? (
+                  <>
+                    <BookmarkCheck size={20} />{" "}
+                    <span>Eliminar de mi biblioteca</span>
+                  </>
+                ) : (
+                  <>
+                    <Bookmark size={20} /> <span>Añadir a biblioteca</span>
+                  </>
+                )}
               </button>
 
               <button
@@ -175,6 +215,13 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
             <h3>Acerca del juego</h3>
             <p>{description_raw}</p>
           </section>
+        )}
+        {showRemoveConfirm && (
+          <ConfirmRemoveDialog
+            gameName={game.name}
+            onConfirm={handleConfirmRemoval}
+            onCancel={() => setShowRemoveConfirm(false)}
+          />
         )}
       </article>
     </dialog>

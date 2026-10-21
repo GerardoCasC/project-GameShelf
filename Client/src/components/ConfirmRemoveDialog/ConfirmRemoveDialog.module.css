@@ -1,0 +1,55 @@
+.dialog {
+  position: fixed;
+  inset: 0;
+  width: min(500px, calc(100% - 32px));
+  min-height: 200px;
+  margin: auto;
+  padding: 24px;
+
+  color: var(--color-text, #f5f3ff);
+
+  background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);
+
+  border: 1px solid #273450;
+  border-radius: 14px;
+
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.dialog h2 {
+  margin: 0 0 16px;
+  font-size: 1.25rem;
+}
+
+.dialog p {
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.actions button {
+  min-height: 44px;
+  padding: 10px 16px;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: var(--color-button-bg, #232953);
+  border: 1px solid var(--color-button-border, #414b91);
+  border-radius: 7px;
+  cursor: pointer;
+}
+.actions button:hover {
+  background: var(--color-button-hover, #343b78);
+  border-color: #8271dc;
+  box-shadow: 0 0 10px rgba(117, 100, 220, 0.2);
+  cursor: pointer;
+}
