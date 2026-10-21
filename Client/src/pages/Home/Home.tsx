@@ -181,12 +181,12 @@ export function Home({ onOpenDetails }: HomeProps) {
           {!isLoading && !error && (
             <GameSection
               title={
-                search.query
+                search.query || selectedGenre || selectedPlatform
                   ? "Resultados de búsqueda"
                   : "Videojuegos destacados"
               }
               icon={
-                search.query ? (
+                search.query || selectedGenre || selectedPlatform ? (
                   <Search size={20} />
                 ) : (
                   <Star size={20} fill="currentColor" />

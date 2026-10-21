@@ -27,5 +27,4 @@ export interface GameDetail extends Game {
 export interface LibraryEntry {
   game: Game;
   status?: "pending" | "playing" | "completed" | "abandoned";
-  favorite?: boolean;
 }

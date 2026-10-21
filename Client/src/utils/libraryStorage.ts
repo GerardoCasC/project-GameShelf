@@ -3,6 +3,7 @@ import type { LibraryEntry } from "../types/game";
 
 class LibraryStorage {
   private readonly storageKey = "library";
+  private readonly favoritesKey = "favorites";
 
   public getLibrary(): LibraryEntry[] {
     try {
@@ -35,7 +36,6 @@ class LibraryStorage {
     const newEntry: LibraryEntry = {
       game,
       status: "pending",
-      favorite: false,
     };
 
     const updatedLibrary = [...library, newEntry];
@@ -57,6 +57,41 @@ class LibraryStorage {
 
   private saveLibrary(library: LibraryEntry[]): void {
     localStorage.setItem(this.storageKey, JSON.stringify(library));
+  }
+
+  public getFavorites(): Game[] {
+    try {
+      const storedFavorites = localStorage.getItem(this.favoritesKey);
+
+      if (!storedFavorites) return [];
+
+      const parsedFavorites: unknown = JSON.parse(storedFavorites);
+
+      if (!Array.isArray(parsedFavorites)) return [];
+
+      return parsedFavorites as Game[];
+    } catch (error) {
+      console.error("Error al recuperar favoritos:", error);
+      return [];
+    }
+  }
+
+  public toggleFavorite(game: Game): Game[] {
+    const favorites = this.getFavorites();
+
+    const isFavorite = favorites.some((favorite) => favorite.id === game.id);
+
+    const updatedFavorites = isFavorite
+      ? favorites.filter((favorite) => favorite.id !== game.id)
+      : [...favorites, game];
+
+    this.saveFavorites(updatedFavorites);
+
+    return updatedFavorites;
+  }
+
+  private saveFavorites(favorites: Game[]): void {
+    localStorage.setItem(this.favoritesKey, JSON.stringify(favorites));
   }
 }
 

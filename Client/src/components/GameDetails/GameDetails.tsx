@@ -12,8 +12,10 @@ interface GameDetailsProps {
 }
 
 export function GameDetails({ game, onClose }: GameDetailsProps) {
-  const { addGame, removeGame, isGameInLibrary } = useLibrary();
+  const { addGame, removeGame, isGameInLibrary, toggleFavorite, isFavorite } =
+    useLibrary();
   const isSaved = isGameInLibrary(game.id);
+  const isGameFavorite = isFavorite(game.id);
 
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
 
@@ -36,6 +38,17 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
   function handleConfirmRemoval() {
     removeGame(game.id);
     setShowRemoveConfirm(false);
+  }
+
+  function handleFavoriteToggle() {
+    toggleFavorite({
+      id: game.id,
+      name: game.name,
+      background_image: game.background_image,
+      released: game.released,
+      rating: game.rating,
+      genres: game.genres,
+    });
   }
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -108,7 +121,6 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
           type="button"
           className={styles.closeButton}
           onClick={onClose}
-          aria-label="Cerrar detalles"
           autoFocus
         >
           <X size={22} aria-hidden="true" />
@@ -202,10 +214,13 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
               <button
                 type="button"
                 className={styles.favoriteButton}
-                aria-label="Añadir a favoritos"
-                title="Añadir a favoritos"
+                onClick={handleFavoriteToggle}
               >
-                <Heart size={20} aria-hidden="true" />
+                <Heart
+                  size={20}
+                  fill={isGameFavorite ? "currentColor" : "none"}
+                  aria-hidden="true"
+                />
               </button>
             </div>
           </div>

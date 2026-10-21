@@ -54,9 +54,9 @@
   height: 32px;
   padding: 0;
 
-  color: #f5f3ff;
-  background: rgba(9, 18, 33, 0.8);
-  border: 1px solid rgba(180, 170, 220, 0.2);
+  color: var(--color-button-text, #c6b8ff);
+  background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);
+  border: 1px solid #273450;
   border-radius: 50%;
   backdrop-filter: blur(6px);
 
