@@ -17,6 +17,7 @@ interface GameSectionProps {
   isLoadingMore?: boolean;
   loadMoreError?: string | null;
   onLoadMore?: () => void;
+  emptyMessage?: string;
 }
 
 export function GameSection({
@@ -29,6 +30,7 @@ export function GameSection({
   isLoadingMore = false,
   loadMoreError = null,
   onLoadMore,
+  emptyMessage,
 }: GameSectionProps) {
   const titleId = useId();
 
@@ -46,16 +48,22 @@ export function GameSection({
         </h1>
       </div>
 
-      <div className={styles.grid}>
-        {games.map((game) => (
-          <GameCard
-            key={game.id}
-            game={game}
-            onOpenDetails={onOpenDetails}
-            onGenreClick={onGenreClick}
-          />
-        ))}
-      </div>
+      {games.length === 0 && emptyMessage ? (
+        <p className={styles.emptyMessage} role="status">
+          {emptyMessage}
+        </p>
+      ) : (
+        <div className={styles.grid}>
+          {games.map((game) => (
+            <GameCard
+              key={game.id}
+              game={game}
+              onOpenDetails={onOpenDetails}
+              onGenreClick={onGenreClick}
+            />
+          ))}
+        </div>
+      )}
       {loadMoreError && <ErrorMessage message={loadMoreError} />}
 
       {isLoadingMore && <Loading message="Cargando..." />}

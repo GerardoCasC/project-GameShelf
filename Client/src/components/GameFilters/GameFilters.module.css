@@ -5,6 +5,7 @@
 
   width: 100%;
   min-width: 0;
+  min-height: 330px;
   padding: 24px;
 
   background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Star, Search } from "lucide-react";
+import { Star, Search, BookOpen } from "lucide-react";
 import { HomeHero } from "./HomeHero";
 import { PageLayout } from "../../components/PageLayout/PageLayout";
 import { GameSection } from "../../components/GameSection/GameSection";
@@ -8,6 +8,7 @@ import { Loading } from "../../components/Loading/Loading";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 import { rawgApi } from "../../utils/rawgApi";
 import { useAsyncRequest } from "../../hooks/useAsyncRequest";
+import { useLibrary } from "../../hooks/useLibrary";
 import type { Game } from "../../types/game";
 import type { FilterOptions, RawgGamesResponse } from "../../types/rawg";
 import styles from "./Home.module.css";
@@ -18,11 +19,13 @@ interface HomeProps {
 
 export function Home({ onOpenDetails }: HomeProps) {
   //  Games  //
+
   const [games, setGames] = useState<Game[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
-
+  const { library } = useLibrary();
+  const libraryGames = library.map((entry) => entry.game);
   const {
     status: catalogStatus,
     error: catalogError,
@@ -175,11 +178,7 @@ export function Home({ onOpenDetails }: HomeProps) {
 
           {error && <ErrorMessage message={error} />}
 
-          {!isLoading && !error && games.length === 0 && (
-            <p role="status">No se encontraron videojuegos.</p>
-          )}
-
-          {!isLoading && !error && games.length > 0 && (
+          {!isLoading && !error && (
             <GameSection
               title={
                 search.query
@@ -200,6 +199,16 @@ export function Home({ onOpenDetails }: HomeProps) {
               isLoadingMore={isLoadingMore}
               loadMoreError={loadMoreError}
               onLoadMore={handleLoadMore}
+              emptyMessage="No se encontraron videojuegos."
+            />
+          )}
+          {libraryGames.length > 0 && (
+            <GameSection
+              title="Mi biblioteca"
+              icon={<BookOpen size={22} />}
+              games={libraryGames}
+              onOpenDetails={onOpenDetails}
+              emptyMessage="Tu biblioteca está vacía. Explora el catálogo y agrega tus videojuegos favoritos."
             />
           )}
         </PageLayout>

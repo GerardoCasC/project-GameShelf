@@ -1,5 +1,8 @@
-import { Heart, Plus, Star } from "lucide-react";
+import { Heart, Star, Bookmark, BookmarkCheck } from "lucide-react";
+import { useState } from "react";
+import { ConfirmRemoveDialog } from "../ConfirmRemoveDialog/ConfirmRemoveDialog";
 import type { Game } from "../../types/game";
+import { useLibrary } from "../../hooks/useLibrary";
 import fallbackGame from "../../images/fallback-game.svg";
 import styles from "./GameCard.module.css";
 
@@ -10,8 +13,26 @@ interface GameCardProps {
 }
 export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
   const { name, background_image, released, rating, genres } = game;
-
   const year = released ? new Date(released).getUTCFullYear() : null;
+
+  const { addGame, removeGame, isGameInLibrary } = useLibrary();
+  const isSaved = isGameInLibrary(game.id);
+
+  const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+
+  function handleLibraryToggle() {
+    if (isSaved) {
+      setShowRemoveConfirm(true);
+      return;
+    }
+
+    addGame(game);
+  }
+
+  function handleConfirmRemoval() {
+    removeGame(game.id);
+    setShowRemoveConfirm(false);
+  }
 
   return (
     <article className={styles.card}>
@@ -91,12 +112,26 @@ export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
         <button
           type="button"
           className={styles.addButton}
-          title="Biblioteca próximamente"
+          onClick={handleLibraryToggle}
         >
-          <Plus size={20} aria-hidden="true" />
-          <span>Añadir a biblioteca</span>
+          {isSaved ? (
+            <>
+              <BookmarkCheck size={20} /> <span>Eliminar de mi biblioteca</span>
+            </>
+          ) : (
+            <>
+              <Bookmark size={20} /> <span>Añadir a biblioteca</span>
+            </>
+          )}
         </button>
       </div>
+      {showRemoveConfirm && (
+        <ConfirmRemoveDialog
+          gameName={game.name}
+          onConfirm={handleConfirmRemoval}
+          onCancel={() => setShowRemoveConfirm(false)}
+        />
+      )}
     </article>
   );
 }
