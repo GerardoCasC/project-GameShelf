@@ -15,10 +15,11 @@ export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
   const { name, background_image, released, rating, genres } = game;
   const year = released ? new Date(released).getUTCFullYear() : null;
 
-  const { addGame, removeGame, isGameInLibrary } = useLibrary();
+  const { addGame, removeGame, isGameInLibrary, toggleFavorite, isFavorite } =
+    useLibrary();
   const isSaved = isGameInLibrary(game.id);
-
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+  const isGameFavorite = isFavorite(game.id);
 
   function handleLibraryToggle() {
     if (isSaved) {
@@ -52,10 +53,13 @@ export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
         <button
           type="button"
           className={styles.favoriteButton}
-          aria-label="Añadir a favoritos (próximamente)"
-          title="Favoritos próximamente"
+          onClick={() => toggleFavorite(game)}
         >
-          <Heart size={22} aria-hidden="true" />
+          <Heart
+            size={20}
+            fill={isGameFavorite ? "currentColor" : "none"}
+            aria-hidden="true"
+          />
         </button>
       </div>
 

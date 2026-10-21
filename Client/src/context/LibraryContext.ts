@@ -7,6 +7,9 @@ export interface LibraryContextValue {
   addGame: (game: Game) => void;
   removeGame: (gameId: number) => void;
   isGameInLibrary: (gameId: number) => boolean;
+  favorites: Game[];
+  toggleFavorite: (game: Game) => void;
+  isFavorite: (gameId: number) => boolean;
 }
 
 export const LibraryContext = createContext<LibraryContextValue | null>(null);

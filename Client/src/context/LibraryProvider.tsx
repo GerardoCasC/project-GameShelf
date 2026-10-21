@@ -12,6 +12,9 @@ export function LibraryProvider({ children }: LibraryProviderProps) {
   const [library, setLibrary] = useState<LibraryEntry[]>(() =>
     libraryStorage.getLibrary(),
   );
+  const [favorites, setFavorites] = useState<Game[]>(() =>
+    libraryStorage.getFavorites(),
+  );
 
   const addGame = useCallback((game: Game) => {
     const updatedLibrary = libraryStorage.addGame(game);
@@ -30,14 +33,38 @@ export function LibraryProvider({ children }: LibraryProviderProps) {
     [library],
   );
 
+  const toggleFavorite = useCallback((game: Game) => {
+    const updatedFavorites = libraryStorage.toggleFavorite(game);
+
+    setFavorites(updatedFavorites);
+  }, []);
+
+  const isFavorite = useCallback(
+    (gameId: number) => {
+      return favorites.some((game) => game.id === gameId);
+    },
+    [favorites],
+  );
+
   const value = useMemo(
     () => ({
       library,
       addGame,
       removeGame,
       isGameInLibrary,
+      favorites,
+      toggleFavorite,
+      isFavorite,
     }),
-    [library, addGame, removeGame, isGameInLibrary],
+    [
+      library,
+      addGame,
+      removeGame,
+      isGameInLibrary,
+      favorites,
+      toggleFavorite,
+      isFavorite,
+    ],
   );
 
   return (
