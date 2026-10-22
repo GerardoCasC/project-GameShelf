@@ -33,4 +33,11 @@
   .sidebar {
     grid-column: 1;
   }
+  .sidebarFirstMobile .sidebar {
+    grid-row: 1;
+  }
+
+  .sidebarFirstMobile .content {
+    grid-row: 2;
+  }
 }

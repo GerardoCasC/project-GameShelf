@@ -156,6 +156,7 @@ export function Home({ onOpenDetails }: HomeProps) {
       <HomeHero onSearch={handleSearch} />
       <div className={styles.catalog}>
         <PageLayout
+          sidebarFirstOnMobile
           sidebar={
             filtersLoading ? (
               <Loading message="Cargando filtros..." />
