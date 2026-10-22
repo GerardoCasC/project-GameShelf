@@ -65,12 +65,22 @@ export function GameCard({
             className={styles.image}
             src={background_image ?? fallbackGame}
             alt={`Portada de ${name}`}
+            onError={(event) => {
+              event.currentTarget.onerror = null;
+              event.currentTarget.src = fallbackGame;
+            }}
           />
         </button>
         <button
           type="button"
           className={styles.favoriteButton}
           onClick={() => toggleFavorite(game)}
+          aria-label={
+            isGameFavorite
+              ? `Quitar ${game.name} de favoritos`
+              : `Agregar ${game.name} a favoritos`
+          }
+          aria-pressed={isGameFavorite}
         >
           <Heart
             size={20}

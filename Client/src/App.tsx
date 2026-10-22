@@ -26,7 +26,7 @@ export function App() {
   function openGameDetails(game: Game) {
     void loadGameDetails(
       () => rawgApi.getGameById(game.id),
-      "No se pudieron cargar los detalles del videojuego.",
+      "No se pudieron cargar los detalles",
     );
   }
 
@@ -44,10 +44,7 @@ export function App() {
           <Route path="/about" element={<About />} />
         </Routes>
         {detailStatus === "loading" && (
-          <Loading
-            message="Cargando detalles del videojuego..."
-            variant="overlay"
-          />
+          <Loading message="Cargando detalles..." variant="overlay" />
         )}
 
         {detailError && (

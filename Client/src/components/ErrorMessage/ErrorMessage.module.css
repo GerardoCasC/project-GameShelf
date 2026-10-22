@@ -26,11 +26,11 @@
   margin: 0 auto;
   padding: 24px;
 
-  color: #ffb4b4;
-  background: var(--color-surface);
+  color: var(--color-text, #f5f3ff);
+  background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);
 
-  border: 1px solid rgba(220, 60, 60, 0.35);
-  border-radius: var(--radius-md);
+  border: 1px solid #273450;
+  border-radius: 14px;
 
   text-align: center;
 }
