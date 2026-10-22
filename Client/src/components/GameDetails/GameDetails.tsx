@@ -35,27 +35,12 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
       setShowRemoveConfirm(true);
       return;
     }
-
-    addGame({
-      id: game.id,
-      name: game.name,
-      background_image: game.background_image,
-      released: game.released,
-      rating: game.rating,
-      genres: game.genres,
-    });
+    addGame(game);
   }
 
   function handleStatusChange(status: GameStatus) {
     if (!isSaved) {
-      addGame({
-        id: game.id,
-        name: game.name,
-        background_image: game.background_image,
-        released: game.released,
-        rating: game.rating,
-        genres: game.genres,
-      });
+      addGame(game);
     }
 
     updateGameStatus(game.id, status);
@@ -67,14 +52,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
   }
 
   function handleFavoriteToggle() {
-    toggleFavorite({
-      id: game.id,
-      name: game.name,
-      background_image: game.background_image,
-      released: game.released,
-      rating: game.rating,
-      genres: game.genres,
-    });
+    toggleFavorite(game);
   }
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -241,6 +219,12 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
                 type="button"
                 className={styles.favoriteButton}
                 onClick={handleFavoriteToggle}
+                aria-label={
+                  isGameFavorite
+                    ? `Quitar ${game.name} de favoritos`
+                    : `Agregar ${game.name} a favoritos`
+                }
+                aria-pressed={isGameFavorite}
               >
                 <Heart
                   size={20}

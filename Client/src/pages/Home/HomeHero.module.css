@@ -48,21 +48,6 @@
   z-index: 0;
 }
 
-@media (max-width: 768px) {
-  .hero {
-    min-height: 460px;
-    padding: 160px 24px 40px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero {
-    min-height: 510px;
-    padding: 180px 16px 36px;
-    background-position: 60% center;
-  }
-}
-
 .content {
   position: relative;
   z-index: 1;

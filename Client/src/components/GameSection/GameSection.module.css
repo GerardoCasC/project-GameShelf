@@ -87,7 +87,6 @@
 }
 
 .loadMoreButton:hover:not(:disabled) {
-  background: var(--color-button-hover);
   background: var(--color-button-hover, #343b78);
   border-color: #8271dc;
   box-shadow: 0 0 10px rgba(117, 100, 220, 0.2);
