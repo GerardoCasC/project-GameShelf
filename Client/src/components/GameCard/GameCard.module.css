@@ -1,10 +1,10 @@
 .card {
+  overflow: visible;
   display: flex;
   flex-direction: column;
   width: 100%;
   min-width: 0;
   height: 100%;
-  overflow: hidden;
 
   background: #091221;
   border: 1px solid #1c2a44;
@@ -15,7 +15,9 @@
     border-color 200ms ease,
     box-shadow 200ms ease;
 }
-
+.card:has(details[open]) {
+  z-index: 50;
+}
 .card:hover {
   transform: translateY(-3px);
   border-color: #6358a8;
@@ -219,7 +221,7 @@ button.genre:focus-visible {
   width: 100%;
   min-height: 36px;
   margin-top: auto;
-  padding: 7px 8px;
+  padding: 10px 8px;
 
   color: var(--color-button-text, #c6b8ff);
   background: var(--color-button-bg, #232953);

@@ -55,7 +55,7 @@ export function ConfirmRemoveDialog({
           className={styles.confirmButton}
           onClick={onConfirm}
         >
-          Eliminar videojuego
+          Eliminar
         </button>
       </div>
     </dialog>

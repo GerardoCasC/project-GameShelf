@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState, type ReactNode } from "react";
-import type { Game } from "../types/game";
-import type { LibraryEntry } from "../types/game";
+import type { Game, GameStatus, LibraryEntry } from "../types/game";
 import { libraryStorage } from "../utils/libraryStorage";
 import { LibraryContext } from "./LibraryContext";
 
@@ -33,6 +32,12 @@ export function LibraryProvider({ children }: LibraryProviderProps) {
     [library],
   );
 
+  const updateGameStatus = useCallback((gameId: number, status: GameStatus) => {
+    const updatedLibrary = libraryStorage.updateGameStatus(gameId, status);
+
+    setLibrary(updatedLibrary);
+  }, []);
+
   const toggleFavorite = useCallback((game: Game) => {
     const updatedFavorites = libraryStorage.toggleFavorite(game);
 
@@ -53,6 +58,7 @@ export function LibraryProvider({ children }: LibraryProviderProps) {
       removeGame,
       isGameInLibrary,
       favorites,
+      updateGameStatus,
       toggleFavorite,
       isFavorite,
     }),
@@ -62,6 +68,7 @@ export function LibraryProvider({ children }: LibraryProviderProps) {
       removeGame,
       isGameInLibrary,
       favorites,
+      updateGameStatus,
       toggleFavorite,
       isFavorite,
     ],

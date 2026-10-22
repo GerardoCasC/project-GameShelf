@@ -209,6 +209,7 @@ export function Home({ onOpenDetails }: HomeProps) {
               games={libraryGames}
               onOpenDetails={onOpenDetails}
               emptyMessage="Tu biblioteca está vacía. Explora el catálogo y agrega tus videojuegos favoritos."
+              showStatusSelect
             />
           )}
         </PageLayout>
