@@ -18,6 +18,7 @@ interface GameSectionProps {
   loadMoreError?: string | null;
   onLoadMore?: () => void;
   emptyMessage?: string;
+  showStatusSelect?: boolean;
 }
 
 export function GameSection({
@@ -31,6 +32,7 @@ export function GameSection({
   loadMoreError = null,
   onLoadMore,
   emptyMessage,
+  showStatusSelect = false,
 }: GameSectionProps) {
   const titleId = useId();
 
@@ -60,6 +62,7 @@ export function GameSection({
               game={game}
               onOpenDetails={onOpenDetails}
               onGenreClick={onGenreClick}
+              showStatusSelect={showStatusSelect}
             />
           ))}
         </div>

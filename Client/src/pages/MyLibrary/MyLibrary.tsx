@@ -21,6 +21,7 @@ export function MyLibrary({ onOpenDetails }: MyLibraryProps) {
         games={libraryGames}
         onOpenDetails={onOpenDetails}
         emptyMessage="Tu biblioteca está vacía. Explora el catálogo y agrega tus videojuegos favoritos."
+        showStatusSelect
       />
     </PageLayout>
   );

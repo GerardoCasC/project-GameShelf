@@ -1,6 +1,7 @@
 import { Heart, Star, Bookmark, BookmarkCheck } from "lucide-react";
 import { useState } from "react";
 import { ConfirmRemoveDialog } from "../ConfirmRemoveDialog/ConfirmRemoveDialog";
+import { GameStatusSelect } from "../GameStatusSelect/GameStatusSelect";
 import type { Game } from "../../types/game";
 import { useLibrary } from "../../hooks/useLibrary";
 import fallbackGame from "../../images/fallback-game.svg";
@@ -10,15 +11,31 @@ interface GameCardProps {
   game: Game;
   onOpenDetails: (game: Game) => void;
   onGenreClick?: (genreId: string) => void;
+  showStatusSelect?: boolean;
 }
-export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
+export function GameCard({
+  game,
+  onOpenDetails,
+  onGenreClick,
+  showStatusSelect = false,
+}: GameCardProps) {
   const { name, background_image, released, rating, genres } = game;
   const year = released ? new Date(released).getUTCFullYear() : null;
 
-  const { addGame, removeGame, isGameInLibrary, toggleFavorite, isFavorite } =
-    useLibrary();
+  const {
+    library,
+    addGame,
+    removeGame,
+    isGameInLibrary,
+    toggleFavorite,
+    isFavorite,
+    updateGameStatus,
+  } = useLibrary();
   const isSaved = isGameInLibrary(game.id);
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
+  const currentStatus = library.find(
+    (entry) => entry.game.id === game.id,
+  )?.status;
   const isGameFavorite = isFavorite(game.id);
 
   function handleLibraryToggle() {
@@ -112,22 +129,31 @@ export function GameCard({ game, onOpenDetails, onGenreClick }: GameCardProps) {
             ))}
           </ul>
         )}
-
-        <button
-          type="button"
-          className={styles.addButton}
-          onClick={handleLibraryToggle}
-        >
-          {isSaved ? (
-            <>
-              <BookmarkCheck size={20} /> <span>Eliminar de mi biblioteca</span>
-            </>
-          ) : (
-            <>
-              <Bookmark size={20} /> <span>Añadir a biblioteca</span>
-            </>
-          )}
-        </button>
+        {showStatusSelect ? (
+          <GameStatusSelect
+            status={currentStatus}
+            isSaved={isSaved}
+            onChange={(status) => updateGameStatus(game.id, status)}
+            onRemove={() => setShowRemoveConfirm(true)}
+          />
+        ) : (
+          <button
+            type="button"
+            className={styles.addButton}
+            onClick={handleLibraryToggle}
+          >
+            {isSaved ? (
+              <>
+                <BookmarkCheck size={20} />{" "}
+                <span>Eliminar de mi biblioteca</span>
+              </>
+            ) : (
+              <>
+                <Bookmark size={20} /> <span>Añadir a biblioteca</span>
+              </>
+            )}
+          </button>
+        )}
       </div>
       {showRemoveConfirm && (
         <ConfirmRemoveDialog

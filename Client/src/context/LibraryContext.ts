@@ -1,6 +1,5 @@
 import { createContext } from "react";
-import type { Game } from "../types/game";
-import type { LibraryEntry } from "../types/game";
+import type { Game, GameStatus, LibraryEntry } from "../types/game";
 
 export interface LibraryContextValue {
   library: LibraryEntry[];
@@ -10,6 +9,7 @@ export interface LibraryContextValue {
   favorites: Game[];
   toggleFavorite: (game: Game) => void;
   isFavorite: (gameId: number) => boolean;
+  updateGameStatus: (gameId: number, status: GameStatus) => void;
 }
 
 export const LibraryContext = createContext<LibraryContextValue | null>(null);

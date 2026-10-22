@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Heart, Star, X, Bookmark, BookmarkCheck } from "lucide-react";
 import { ConfirmRemoveDialog } from "../ConfirmRemoveDialog/ConfirmRemoveDialog";
-import type { GameDetail } from "../../types/game";
+import { GameStatusSelect } from "../GameStatusSelect/GameStatusSelect";
+import type { GameDetail, GameStatus } from "../../types/game";
 import { useLibrary } from "../../hooks/useLibrary";
 import fallbackGame from "../../images/fallback-game.svg";
 import styles from "./GameDetails.module.css";
@@ -12,9 +13,19 @@ interface GameDetailsProps {
 }
 
 export function GameDetails({ game, onClose }: GameDetailsProps) {
-  const { addGame, removeGame, isGameInLibrary, toggleFavorite, isFavorite } =
-    useLibrary();
+  const {
+    library,
+    addGame,
+    removeGame,
+    isGameInLibrary,
+    updateGameStatus,
+    toggleFavorite,
+    isFavorite,
+  } = useLibrary();
   const isSaved = isGameInLibrary(game.id);
+  const currentStatus = library.find(
+    (entry) => entry.game.id === game.id,
+  )?.status;
   const isGameFavorite = isFavorite(game.id);
 
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
@@ -33,6 +44,21 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
       rating: game.rating,
       genres: game.genres,
     });
+  }
+
+  function handleStatusChange(status: GameStatus) {
+    if (!isSaved) {
+      addGame({
+        id: game.id,
+        name: game.name,
+        background_image: game.background_image,
+        released: game.released,
+        rating: game.rating,
+        genres: game.genres,
+      });
+    }
+
+    updateGameStatus(game.id, status);
   }
 
   function handleConfirmRemoval() {
@@ -223,6 +249,12 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
                 />
               </button>
             </div>
+            <GameStatusSelect
+              status={currentStatus}
+              isSaved={isSaved}
+              onChange={handleStatusChange}
+              onRemove={() => setShowRemoveConfirm(true)}
+            />
           </div>
         </div>
         {!!description_raw?.trim() && (

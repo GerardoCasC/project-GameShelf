@@ -236,7 +236,8 @@
 /* Botones de acción */
 
 .actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 44px;
   align-items: center;
   gap: 12px;
 

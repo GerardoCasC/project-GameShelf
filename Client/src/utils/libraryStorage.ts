@@ -1,9 +1,12 @@
-import type { Game } from "../types/game";
-import type { LibraryEntry } from "../types/game";
+import type { Game, GameStatus, LibraryEntry } from "../types/game";
 
 class LibraryStorage {
   private readonly storageKey = "library";
   private readonly favoritesKey = "favorites";
+
+  private saveLibrary(library: LibraryEntry[]): void {
+    localStorage.setItem(this.storageKey, JSON.stringify(library));
+  }
 
   public getLibrary(): LibraryEntry[] {
     try {
@@ -55,8 +58,30 @@ class LibraryStorage {
     return updatedLibrary;
   }
 
-  private saveLibrary(library: LibraryEntry[]): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(library));
+  //  STATUS  //
+
+  public updateGameStatus(gameId: number, status: GameStatus): LibraryEntry[] {
+    const library = this.getLibrary();
+
+    const gameExists = library.some((entry) => entry.game.id === gameId);
+
+    if (!gameExists) {
+      return library;
+    }
+
+    const updatedLibrary = library.map((entry) =>
+      entry.game.id === gameId ? { ...entry, status } : entry,
+    );
+
+    this.saveLibrary(updatedLibrary);
+
+    return updatedLibrary;
+  }
+
+  //  FAVORITES  //
+
+  private saveFavorites(favorites: Game[]): void {
+    localStorage.setItem(this.favoritesKey, JSON.stringify(favorites));
   }
 
   public getFavorites(): Game[] {
@@ -88,10 +113,6 @@ class LibraryStorage {
     this.saveFavorites(updatedFavorites);
 
     return updatedFavorites;
-  }
-
-  private saveFavorites(favorites: Game[]): void {
-    localStorage.setItem(this.favoritesKey, JSON.stringify(favorites));
   }
 }
 

@@ -1,0 +1,138 @@
+.container {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+}
+
+.trigger {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+
+  min-height: 36px;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: var(--color-button-bg, #232953);
+
+  border: 1px solid var(--color-button-border, #414b91);
+  border-radius: 7px;
+
+  font-size: 0.72rem;
+  font-weight: 600;
+
+  cursor: pointer;
+  list-style: none;
+  overflow: hidden;
+}
+
+.trigger::-webkit-details-marker {
+  display: none;
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+
+  padding: 10px 12px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 42px;
+  flex-shrink: 0;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: var(--color-button-bg, #232953);
+  border-left: 1px solid #505674;
+}
+
+.container[open] .arrow svg {
+  transform: rotate(180deg);
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+
+  width: 100%;
+  padding: 8px;
+
+  background: #191b27;
+  border: 1px solid #2c3045;
+  border-radius: 9px;
+
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+
+  color: #afb5d4;
+  background: transparent;
+
+  border: none;
+  border-radius: 6px;
+
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.option:hover,
+.option[aria-pressed="true"] {
+  color: #f5f3ff;
+  background: #30354e;
+}
+
+.trigger:focus-visible,
+.option:focus-visible {
+  outline: 2px solid #aa98ff;
+  outline-offset: 2px;
+}
+.removeContainer {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #353b54;
+}
+
+.removeOption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+
+  color: #fb808c;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+
+  font: inherit;
+  font-size: 0.875rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.removeOption:hover {
+  background: rgba(251, 128, 140, 0.12);
+}
+
+.removeOption:focus-visible {
+  outline: 2px solid #fb808c;
+  outline-offset: 2px;
+}
