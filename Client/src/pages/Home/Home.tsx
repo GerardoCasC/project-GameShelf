@@ -138,7 +138,7 @@ export function Home({ onOpenDetails }: HomeProps) {
   }, [search, selectedGenre, selectedPlatform, page, retryCount, loadCatalog]);
 
   useEffect(() => {
-    loadGamesData();
+    return loadGamesData();
   }, [loadGamesData]);
 
   const loadFiltersData = useCallback(() => {
