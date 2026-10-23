@@ -91,7 +91,7 @@ export function GameCard({
       </div>
 
       <div className={styles.content}>
-        <h2 className={styles.title}>
+        <h3 className={styles.title}>
           <button
             type="button"
             className={styles.titleButton}
@@ -99,7 +99,7 @@ export function GameCard({
           >
             {name}
           </button>
-        </h2>
+        </h3>
 
         <div className={styles.meta}>
           {year !== null && !Number.isNaN(year) && (

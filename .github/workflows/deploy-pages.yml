@@ -3,7 +3,7 @@ name: Deploy Runaria to GitHub Pages
 on:
   push:
     branches:
-      - stage-frontend
+      - main
   workflow_dispatch:
 
 permissions:
