@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Star, Search, BookOpen } from "lucide-react";
 import { HomeHero } from "./HomeHero";
 import { PageLayout } from "../../components/PageLayout/PageLayout";
@@ -95,7 +95,7 @@ export function Home({ onOpenDetails }: HomeProps) {
     }));
   }
 
-  useEffect(() => {
+  const loadGamesData = useCallback(() => {
     let active = true;
 
     async function loadGames() {
@@ -138,6 +138,10 @@ export function Home({ onOpenDetails }: HomeProps) {
   }, [search, selectedGenre, selectedPlatform, page, retryCount, loadCatalog]);
 
   useEffect(() => {
+    loadGamesData();
+  }, [loadGamesData]);
+
+  const loadFiltersData = useCallback(() => {
     void loadFilters(async () => {
       const [genresData, platformsData] = await Promise.all([
         rawgApi.getGenres(),
@@ -151,6 +155,10 @@ export function Home({ onOpenDetails }: HomeProps) {
     }, "No se pudieron cargar los filtros.");
   }, [loadFilters]);
 
+  useEffect(() => {
+    loadFiltersData();
+  }, [loadFiltersData]);
+
   return (
     <>
       <HomeHero onSearch={handleSearch} />
@@ -161,7 +169,7 @@ export function Home({ onOpenDetails }: HomeProps) {
             filtersLoading ? (
               <Loading message="Cargando filtros..." />
             ) : filtersError ? (
-              <ErrorMessage message={filtersError} />
+              <ErrorMessage message={filtersError} onRetry={loadFiltersData} />
             ) : (
               <GameFilters
                 genres={genres}
@@ -177,7 +185,7 @@ export function Home({ onOpenDetails }: HomeProps) {
         >
           {isLoading && <Loading message="Buscando videojuegos..." />}
 
-          {error && <ErrorMessage message={error} />}
+          {error && <ErrorMessage message={error} onRetry={loadGamesData} />}
 
           {!isLoading && !error && (
             <GameSection

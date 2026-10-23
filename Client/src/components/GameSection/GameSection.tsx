@@ -19,6 +19,7 @@ interface GameSectionProps {
   onLoadMore?: () => void;
   emptyMessage?: string;
   showStatusSelect?: boolean;
+  headingLevel?: "h1" | "h2";
 }
 
 export function GameSection({
@@ -33,8 +34,11 @@ export function GameSection({
   onLoadMore,
   emptyMessage,
   showStatusSelect = false,
+  headingLevel = "h2",
 }: GameSectionProps) {
   const titleId = useId();
+
+  const Heading = headingLevel;
 
   return (
     <section className={styles.section} aria-labelledby={titleId}>
@@ -45,9 +49,9 @@ export function GameSection({
           </span>
         )}
 
-        <h1 id={titleId} className={styles.title}>
+        <Heading id={titleId} className={styles.title}>
           {title}
-        </h1>
+        </Heading>
       </div>
 
       {games.length === 0 && emptyMessage ? (

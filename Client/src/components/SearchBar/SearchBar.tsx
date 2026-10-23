@@ -24,6 +24,7 @@ export function SearchBar({ onSearch }: SearchBarProps) {
           type="search"
           className={styles.input}
           placeholder="Buscar videojuegos"
+          aria-label="Buscar videojuegos"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />

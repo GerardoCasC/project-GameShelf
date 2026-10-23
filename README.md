@@ -1,4 +1,4 @@
-🎮 GameShelf — Tu biblioteca personal de videojuegos
+🎮 Runaria — Tu biblioteca personal de videojuegos
 
 ### Funcionalidades principales
 
@@ -6,7 +6,6 @@
 - **Búsqueda y filtros:** encontrar videojuegos por nombre, género o plataforma.
 - **Biblioteca personal:** guardar videojuegos y organizarlos según su estado: pendiente, jugando, completado o abandonado.
 - **Autenticación:** registrarse e iniciar sesión para acceder a una biblioteca privada (Etapa 2).
-- **Valoraciones personales:** calificar videojuegos y añadir notas sobre la experiencia de juego.
 - **Gestión de biblioteca:** agregar, editar y eliminar videojuegos de la colección personal.
 
 ### API de terceros: RAWG Video Games Database

@@ -79,6 +79,7 @@ export function MyLibrary({ onOpenDetails }: MyLibraryProps) {
         onOpenDetails={onOpenDetails}
         emptyMessage={emptyMessage}
         showStatusSelect={selectedFilter !== "favorites"}
+        headingLevel="h1"
       />
     </PageLayout>
   );

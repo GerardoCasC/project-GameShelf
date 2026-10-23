@@ -5,12 +5,14 @@ interface ErrorMessageProps {
   message: string;
   variant?: "inline" | "overlay";
   onDismiss?: () => void;
+  onRetry?: () => void;
 }
 
 export function ErrorMessage({
   message,
   variant = "inline",
   onDismiss,
+  onRetry,
 }: ErrorMessageProps) {
   const content = (
     <div className={styles.content} role="alert">
@@ -26,6 +28,12 @@ export function ErrorMessage({
           autoFocus={variant === "overlay"}
         >
           Cerrar
+        </button>
+      )}
+
+      {onRetry && (
+        <button type="button" className={styles.button} onClick={onRetry}>
+          Reintentar
         </button>
       )}
     </div>
