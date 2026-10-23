@@ -1,0 +1,145 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 330px;
+  padding: 18px;
+  margin-bottom: var(--spacing-xxl);
+
+  background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);
+
+  border: 1px solid #273450;
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+
+  container-type: inline-size;
+}
+
+/* Encabezado */
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+
+  color: var(--color-primary, #9b83ff);
+}
+
+.title {
+  margin: 0;
+
+  color: var(--color-text, #f5f3ff);
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Descripción opcional */
+
+.emptyMessage {
+  padding: 40px 16px;
+  margin: auto;
+  text-align: center;
+  color: var(--color-text-secondary, #98a4bf);
+  line-height: 1.6;
+}
+
+/* Cuadrícula de videojuegos */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 14px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+/* Botón "cargar mas juegos" */
+
+.loadMoreButton {
+  display: block;
+  min-height: 44px;
+  margin: 24px auto 0;
+  padding: 12px 28px;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: var(--color-button-bg, #232953);
+
+  border: 1px solid var(--color-button-border, #414b91);
+  border-radius: 7px;
+
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.loadMoreButton:hover:not(:disabled) {
+  background: var(--color-button-hover, #343b78);
+  border-color: #8271dc;
+  box-shadow: 0 0 10px rgba(117, 100, 220, 0.2);
+  cursor: pointer;
+}
+
+.loadMoreButton:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Adaptación según el ancho del contenedor */
+
+@container (max-width: 1150px) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container (max-width: 650px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+@container (max-width: 400px) {
+  .grid {
+    gap: 6px;
+  }
+}
+
+/* Responsive del contenedor */
+
+@media (max-width: 768px) {
+  .section {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 6px;
+    border-radius: 12px;
+  }
+
+  .title {
+    font-size: 1rem;
+  }
+}

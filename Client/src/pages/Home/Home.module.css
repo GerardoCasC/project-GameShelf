@@ -1,0 +1,16 @@
+.catalog {
+  width: 100%;
+  padding: 0 var(--spacing-xxl) 48px;
+}
+
+@media (max-width: 768px) {
+  .catalog {
+    padding: 24px 20px 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .catalog {
+    padding: 20px 12px 24px;
+  }
+}

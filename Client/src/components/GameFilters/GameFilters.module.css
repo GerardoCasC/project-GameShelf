@@ -1,0 +1,99 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  width: 100%;
+  min-width: 0;
+  min-height: 330px;
+  padding: 24px;
+
+  background: linear-gradient(145deg, #111a2d 0%, #0c1425 100%);
+
+  border: 1px solid #273450;
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  color: var(--color-primary);
+}
+
+.header h2 {
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.125rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field label {
+  color: var(--color-text-secondary);
+  font-size: var(--font-size-sm);
+  font-weight: 500;
+}
+
+.field select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+
+  color: var(--color-text);
+  background: var(--color-bg);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+
+  cursor: pointer;
+}
+
+.field select:focus-visible,
+.clearButton:focus-visible {
+  border-color: var(--color-primary);
+  outline-offset: 2px;
+}
+
+.clearButton {
+  min-height: 44px;
+  padding: 10px 16px;
+
+  color: var(--color-button-text, #c6b8ff);
+  background: var(--color-button-bg, #232953);
+
+  border: 1px solid var(--color-button-border, #414b91);
+  border-radius: 9px;
+
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: background-color var(--transition-fast);
+}
+
+.clearButton:hover:not(:disabled) {
+  background: var(--color-button-hover, #343b78);
+  border-color: #8271dc;
+}
+
+.clearButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (max-width: 480px) {
+  .filters {
+    padding: 16px;
+    gap: 18px;
+  }
+}
