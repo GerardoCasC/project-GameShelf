@@ -135,11 +135,11 @@ export function Home({ onOpenDetails }: HomeProps) {
     return () => {
       active = false;
     };
-  }, [search, selectedGenre, selectedPlatform, page, retryCount, loadCatalog]);
+  }, [search, selectedGenre, selectedPlatform, page, loadCatalog]);
 
   useEffect(() => {
     return loadGamesData();
-  }, [loadGamesData]);
+  }, [loadGamesData, retryCount]);
 
   const loadFiltersData = useCallback(() => {
     void loadFilters(async () => {
