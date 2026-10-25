@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { router } from "./routes/index.js";
+import { connectDatabase } from "./config/database.js";
 
 const app = express();
 
@@ -14,4 +15,8 @@ app.use(router);
 
 app.listen(port, () => {
   console.log(`Servidor ejecutándose en http://localhost:${port}`);
+});
+
+void connectDatabase().catch((error: unknown) => {
+  console.error("Error de conexión con MongoDB:", error);
 });
