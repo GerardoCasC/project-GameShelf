@@ -4,7 +4,6 @@ import { AppError } from "../errors/appError.js";
 import type { IGameSnapshot } from "../models/game.js";
 import { Types } from "mongoose";
 
-// GET LIBRARY
 export const getLibrary: RequestHandler = async (req, res) => {
   if (!req.userId) {
     throw new AppError(401);
@@ -23,7 +22,6 @@ export const getLibrary: RequestHandler = async (req, res) => {
   res.status(200).json(library);
 };
 
-// ADD GAME
 export const addGameToLibrary: RequestHandler = async (req, res) => {
   if (!req.userId) {
     throw new AppError(401);
@@ -76,7 +74,6 @@ export const addGameToLibrary: RequestHandler = async (req, res) => {
   });
 };
 
-// UPDATE GAME STATUS
 export const updateGameStatus: RequestHandler = async (req, res) => {
   if (!req.userId) {
     throw new AppError(401);
@@ -128,7 +125,6 @@ export const updateGameStatus: RequestHandler = async (req, res) => {
   });
 };
 
-// DELETE GAME
 export const deleteGameFromLibrary: RequestHandler = async (req, res) => {
   if (!req.userId) {
     throw new AppError(401);
