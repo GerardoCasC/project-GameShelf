@@ -33,11 +33,15 @@ export class Api {
 
   private async handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
-      const errorText = await response.text();
+      const data: { error?: { message?: string } } | null = await response
+        .json()
+        .catch(() => null);
 
-      throw new Error(
-        `API Error: ${response.status} ${response.statusText} - ${errorText}`,
-      );
+      const message = data?.error?.message || `Error HTTP ${response.status}`;
+
+      throw Object.assign(new Error(message), {
+        status: response.status,
+      });
     }
 
     if (response.status === 204) {

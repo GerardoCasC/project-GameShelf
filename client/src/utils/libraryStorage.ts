@@ -37,8 +37,7 @@ class LibraryStorage {
     if (alreadyExists) return library;
 
     const newEntry: LibraryEntry = {
-      // Hardcoded en lo que se implementa la conexión a MongoDB para validar la interfaz
-      id: "1",
+      id: String(game.id),
       game,
       status: "pending",
     };
