@@ -7,7 +7,7 @@ import { GameDetails } from "./components/GameDetails/GameDetails";
 import { Footer } from "./components/Footer/Footer";
 import { Loading } from "./components/Loading/Loading";
 import { ErrorMessage } from "./components/ErrorMessage/ErrorMessage";
-import { rawgApi } from "./utils/rawgApi";
+import { api } from "./utils/api";
 import { useAsyncRequest } from "./hooks/useAsyncRequest";
 import type { Game, GameDetail } from "./types/game";
 import styles from "./App.module.css";
@@ -25,7 +25,7 @@ export function App() {
 
   function openGameDetails(game: Game) {
     void loadGameDetails(
-      () => rawgApi.getGameById(game.id),
+      () => api.getGameById(game.id),
       "No se pudieron cargar los detalles",
     );
   }

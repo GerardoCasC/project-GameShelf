@@ -6,7 +6,7 @@ import { GameSection } from "../../components/GameSection/GameSection";
 import { GameFilters } from "../../components/GameFilters/GameFilters";
 import { Loading } from "../../components/Loading/Loading";
 import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
-import { rawgApi } from "../../utils/rawgApi";
+import { api } from "../../utils/api";
 import { useAsyncRequest } from "../../hooks/useAsyncRequest";
 import { useLibrary } from "../../hooks/useLibrary";
 import type { Game } from "../../types/game";
@@ -101,14 +101,14 @@ export function Home({ onOpenDetails }: HomeProps) {
     async function loadGames() {
       const result = await loadCatalog(
         () =>
-          rawgApi.getGames({
+          api.getGames({
             search: search.query,
             genres: selectedGenre,
             platforms: selectedPlatform,
             page,
             page_size: 10,
           }),
-        "No se pudieron cargar los videojuegos.",
+        "No se pudieron cargar los juegos.",
       );
 
       if (!active || !result) return;
@@ -144,8 +144,8 @@ export function Home({ onOpenDetails }: HomeProps) {
   const loadFiltersData = useCallback(() => {
     void loadFilters(async () => {
       const [genresData, platformsData] = await Promise.all([
-        rawgApi.getGenres(),
-        rawgApi.getPlatforms(),
+        api.getGenres(),
+        api.getPlatforms(),
       ]);
 
       return {
@@ -183,7 +183,7 @@ export function Home({ onOpenDetails }: HomeProps) {
             )
           }
         >
-          {isLoading && <Loading message="Buscando videojuegos..." />}
+          {isLoading && <Loading message="Buscando juegos..." />}
 
           {error && <ErrorMessage message={error} onRetry={loadGamesData} />}
 
@@ -192,7 +192,7 @@ export function Home({ onOpenDetails }: HomeProps) {
               title={
                 search.query || selectedGenre || selectedPlatform
                   ? "Resultados de búsqueda"
-                  : "Videojuegos destacados"
+                  : "Juegos destacados"
               }
               icon={
                 search.query || selectedGenre || selectedPlatform ? (
@@ -208,7 +208,7 @@ export function Home({ onOpenDetails }: HomeProps) {
               isLoadingMore={isLoadingMore}
               loadMoreError={loadMoreError}
               onLoadMore={handleLoadMore}
-              emptyMessage="No se encontraron videojuegos."
+              emptyMessage="No se encontraron juegos."
             />
           )}
           {libraryGames.length > 0 && (
@@ -217,7 +217,7 @@ export function Home({ onOpenDetails }: HomeProps) {
               icon={<BookOpen size={22} />}
               games={libraryGames}
               onOpenDetails={onOpenDetails}
-              emptyMessage="Tu biblioteca está vacía. Explora el catálogo y agrega tus videojuegos favoritos."
+              emptyMessage="Tu biblioteca está vacía. Explora el catálogo y agrega tus juegos favoritos."
               showStatusSelect
             />
           )}

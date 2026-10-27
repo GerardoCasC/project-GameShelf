@@ -27,6 +27,12 @@ export interface GameDetail extends Game {
 export type GameStatus = "pending" | "playing" | "completed" | "abandoned";
 
 export interface LibraryEntry {
+  id: string;
   game: Game;
-  status?: GameStatus;
+  status: GameStatus;
+}
+
+export interface FavoriteEntry {
+  id: string;
+  game: Game;
 }
