@@ -37,6 +37,7 @@ class LibraryStorage {
     if (alreadyExists) return library;
 
     const newEntry: LibraryEntry = {
+      id: String(game.id),
       game,
       status: "pending",
     };
