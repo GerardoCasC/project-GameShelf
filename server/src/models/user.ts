@@ -11,12 +11,10 @@ const userSchema = new Schema<IUser>(
     username: {
       type: String,
       required: true,
-      unique: true,
-      lowercase: true,
       trim: true,
       minlength: 3,
       maxlength: 24,
-      match: /^[a-z0-9_]+$/,
+      match: /^[a-zA-Z0-9_]+$/,
     },
     email: {
       type: String,

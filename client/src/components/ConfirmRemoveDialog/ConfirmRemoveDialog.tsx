@@ -18,10 +18,18 @@ export function ConfirmRemoveDialog({
   useEffect(() => {
     const dialog = dialogRef.current;
 
-    dialog?.showModal();
+    if (!dialog) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    if (!dialog.open) {
+      dialog.showModal();
+    }
 
     return () => {
-      if (dialog?.open) dialog.close();
+      if (dialog.open) {
+        dialog.close();
+      }
+      document.body.style.overflow = previousOverflow;
     };
   }, []);
 
