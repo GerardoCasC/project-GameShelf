@@ -1,4 +1,5 @@
 import { Route, Routes, useLocation } from "react-router-dom";
+import { useState } from "react";
 import { Home } from "./pages/Home/Home";
 import { Header } from "./components/Header/Header";
 import { About } from "./pages/About/About";
@@ -7,12 +8,15 @@ import { GameDetails } from "./components/GameDetails/GameDetails";
 import { Footer } from "./components/Footer/Footer";
 import { Loading } from "./components/Loading/Loading";
 import { ErrorMessage } from "./components/ErrorMessage/ErrorMessage";
+import { AuthModal } from "./components/AuthModal/AuthModal";
 import { api } from "./utils/api";
 import { useAsyncRequest } from "./hooks/useAsyncRequest";
 import type { Game, GameDetail } from "./types/game";
 import styles from "./App.module.css";
 
 export function App() {
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
   const isHome = useLocation().pathname === "/";
 
   const {
@@ -58,7 +62,19 @@ export function App() {
         {selectedGame && (
           <GameDetails game={selectedGame} onClose={resetGameDetails} />
         )}
+        <button type="button" onClick={() => setIsAuthOpen(true)}>
+          Iniciar sesión (prueba)
+        </button>
       </main>
+      {isAuthOpen && (
+        <AuthModal
+          onClose={() => setIsAuthOpen(false)}
+          onSignInSuccess={(token) => {
+            localStorage.setItem("runaria_token", token);
+            setIsAuthOpen(false);
+          }}
+        />
+      )}
       <Footer />
     </div>
   );

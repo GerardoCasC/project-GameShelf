@@ -31,7 +31,7 @@ export const signup: RequestHandler = async (req, res) => {
   const passwordHash = await bcrypt.hash(password, 12);
 
   const user = await User.create({
-    username: username.trim().toLowerCase(),
+    username: username.trim(),
     email: email.trim().toLowerCase(),
     passwordHash,
   });
