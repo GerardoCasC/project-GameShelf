@@ -158,7 +158,9 @@ export function AuthModal({ onClose, onSignInSuccess }: AuthModalProps) {
           disabled={isSubmitting}
         >
           {isSubmitting
-            ? "Registrando..."
+            ? isRegister
+              ? "Registrando..."
+              : "Iniciando sesión..."
             : isRegister
               ? "Crear mi cuenta"
               : "Iniciar sesión"}
@@ -178,6 +180,7 @@ export function AuthModal({ onClose, onSignInSuccess }: AuthModalProps) {
             setError(null);
             setSuccessMessage(null);
           }}
+          disabled={isSubmitting}
         >
           {isRegister ? "Iniciar sesión" : "Registrarse"}
         </button>
