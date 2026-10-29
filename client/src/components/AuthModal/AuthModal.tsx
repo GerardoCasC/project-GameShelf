@@ -6,7 +6,7 @@ import { api } from "../../utils/api";
 
 interface AuthModalProps {
   onClose: () => void;
-  onSignInSuccess: (token: string) => void;
+  onSignInSuccess: (token: string) => Promise<void>;
 }
 
 export function AuthModal({ onClose, onSignInSuccess }: AuthModalProps) {
@@ -61,7 +61,7 @@ export function AuthModal({ onClose, onSignInSuccess }: AuthModalProps) {
       } else {
         const { token } = await api.signin({ email, password });
 
-        onSignInSuccess(token);
+        await onSignInSuccess(token);
       }
     } catch (error) {
       setError(

@@ -9,15 +9,17 @@ import { Footer } from "./components/Footer/Footer";
 import { Loading } from "./components/Loading/Loading";
 import { ErrorMessage } from "./components/ErrorMessage/ErrorMessage";
 import { AuthModal } from "./components/AuthModal/AuthModal";
+import { ProtectedRoute } from "./components/ProtectedRoute/ProtectedRoute";
 import { api } from "./utils/api";
 import { useAsyncRequest } from "./hooks/useAsyncRequest";
+import { useCurrentUser } from "./hooks/useCurrentUser";
 import type { Game, GameDetail } from "./types/game";
 import styles from "./App.module.css";
 
 export function App() {
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-
+  const [isAuthOpen, setIsAuthModalOpen] = useState(false);
   const isHome = useLocation().pathname === "/";
+  const { login } = useCurrentUser();
 
   const {
     data: selectedGame,
@@ -36,14 +38,21 @@ export function App() {
 
   return (
     <div className={styles.app} id="inicio">
-      <Header overlay={isHome} />
+      <Header
+        overlay={isHome}
+        onOpenAuthModal={() => setIsAuthModalOpen(true)}
+      />
       <main className={`${styles.main} ${isHome ? styles.mainHome : ""}`}>
         <Routes>
           <Route path="/" element={<Home onOpenDetails={openGameDetails} />} />
 
           <Route
             path="/library"
-            element={<MyLibrary onOpenDetails={openGameDetails} />}
+            element={
+              <ProtectedRoute>
+                <MyLibrary onOpenDetails={openGameDetails} />
+              </ProtectedRoute>
+            }
           />
           <Route path="/about" element={<About />} />
         </Routes>
@@ -62,16 +71,13 @@ export function App() {
         {selectedGame && (
           <GameDetails game={selectedGame} onClose={resetGameDetails} />
         )}
-        <button type="button" onClick={() => setIsAuthOpen(true)}>
-          Iniciar sesión (prueba)
-        </button>
       </main>
       {isAuthOpen && (
         <AuthModal
-          onClose={() => setIsAuthOpen(false)}
-          onSignInSuccess={(token) => {
-            localStorage.setItem("runaria_token", token);
-            setIsAuthOpen(false);
+          onClose={() => setIsAuthModalOpen(false)}
+          onSignInSuccess={async (token) => {
+            await login(token);
+            setIsAuthModalOpen(false);
           }}
         />
       )}
