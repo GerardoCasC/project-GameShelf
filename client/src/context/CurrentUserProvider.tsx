@@ -98,6 +98,10 @@ export function CurrentUserProvider({ children }: CurrentUserProviderProps) {
         if (authControllerRef.current === controller) {
           authControllerRef.current = null;
         }
+
+        if (active && id === requestId.current) {
+          setIsCheckingAuth(false);
+        }
       });
 
     return () => {
