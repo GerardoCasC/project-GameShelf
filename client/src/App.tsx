@@ -35,16 +35,23 @@ export function App() {
       "No se pudieron cargar los detalles",
     );
   }
-
+  function openAuthModal() {
+    setIsAuthModalOpen(true);
+  }
   return (
     <div className={styles.app} id="inicio">
-      <Header
-        overlay={isHome}
-        onOpenAuthModal={() => setIsAuthModalOpen(true)}
-      />
+      <Header overlay={isHome} onOpenAuthModal={openAuthModal} />
       <main className={`${styles.main} ${isHome ? styles.mainHome : ""}`}>
         <Routes>
-          <Route path="/" element={<Home onOpenDetails={openGameDetails} />} />
+          <Route
+            path="/"
+            element={
+              <Home
+                onOpenDetails={openGameDetails}
+                onRequireAuth={openAuthModal}
+              />
+            }
+          />
 
           <Route
             path="/library"
@@ -69,7 +76,11 @@ export function App() {
         )}
 
         {selectedGame && (
-          <GameDetails game={selectedGame} onClose={resetGameDetails} />
+          <GameDetails
+            game={selectedGame}
+            onClose={resetGameDetails}
+            onRequireAuth={openAuthModal}
+          />
         )}
       </main>
       {isAuthOpen && (

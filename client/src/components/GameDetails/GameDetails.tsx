@@ -2,17 +2,24 @@ import { useEffect, useRef, useState } from "react";
 import { Heart, Star, X, Bookmark, BookmarkCheck } from "lucide-react";
 import { ConfirmRemoveDialog } from "../ConfirmRemoveDialog/ConfirmRemoveDialog";
 import { GameStatusSelect } from "../GameStatusSelect/GameStatusSelect";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import type { GameDetail, GameStatus } from "../../types/game";
 import { useLibrary } from "../../hooks/useLibrary";
+import { useCurrentUser } from "../../hooks/useCurrentUser";
 import fallbackGame from "../../images/fallback-game.svg";
 import styles from "./GameDetails.module.css";
 
 interface GameDetailsProps {
   game: GameDetail;
   onClose: () => void;
+  onRequireAuth: () => void;
 }
 
-export function GameDetails({ game, onClose }: GameDetailsProps) {
+export function GameDetails({
+  game,
+  onClose,
+  onRequireAuth,
+}: GameDetailsProps) {
   const {
     library,
     addGame,
@@ -23,6 +30,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
     isFavorite,
   } = useLibrary();
   const isSaved = isGameInLibrary(game.id);
+  const { isAuth, isCheckingAuth } = useCurrentUser();
   const currentStatus = library.find(
     (entry) => entry.game.id === game.id,
   )?.status;
@@ -30,29 +38,106 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
 
   const [showRemoveConfirm, setShowRemoveConfirm] = useState(false);
 
-  function handleLibraryToggle() {
+  const [actionError, setActionError] = useState<string | null>(null);
+  const [pendingAction, setPendingAction] = useState<
+    "adding" | "removing" | "updating" | "favorite" | null
+  >(null);
+
+  function requireAuth(): boolean {
+    if (isCheckingAuth) return true;
+
+    if (!isAuth) {
+      onClose();
+      onRequireAuth();
+      return true;
+    }
+
+    return false;
+  }
+
+  async function handleLibraryToggle() {
+    if (requireAuth()) return;
     if (isSaved) {
       setShowRemoveConfirm(true);
       return;
     }
-    addGame(game);
-  }
 
-  function handleStatusChange(status: GameStatus) {
-    if (!isSaved) {
-      addGame(game);
+    if (pendingAction !== null) return;
+
+    setPendingAction("adding");
+    setActionError(null);
+
+    try {
+      await addGame(game);
+    } catch (error) {
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : "No se pudo agregar el videojuego.",
+      );
+    } finally {
+      setPendingAction(null);
     }
-
-    updateGameStatus(game.id, status);
   }
 
-  function handleConfirmRemoval() {
-    removeGame(game.id);
-    setShowRemoveConfirm(false);
+  async function handleStatusChange(status: GameStatus) {
+    if (requireAuth()) return;
+    if (pendingAction !== null) return;
+
+    setPendingAction("updating");
+    setActionError(null);
+
+    try {
+      await updateGameStatus(game, status);
+    } catch (error) {
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : "No se pudo actualizar el estado.",
+      );
+    } finally {
+      setPendingAction(null);
+    }
   }
 
-  function handleFavoriteToggle() {
-    toggleFavorite(game);
+  async function handleConfirmRemoval() {
+    if (pendingAction !== null) return;
+
+    setPendingAction("removing");
+    setActionError(null);
+
+    try {
+      await removeGame(game.id);
+      setShowRemoveConfirm(false);
+    } catch (error) {
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : "No se pudo eliminar el videojuego.",
+      );
+    } finally {
+      setPendingAction(null);
+    }
+  }
+
+  async function handleFavoriteToggle() {
+    if (requireAuth()) return;
+    if (pendingAction !== null) return;
+
+    setPendingAction("favorite");
+    setActionError(null);
+
+    try {
+      await toggleFavorite(game);
+    } catch (error) {
+      setActionError(
+        error instanceof Error
+          ? error.message
+          : "No se pudieron actualizar los favoritos.",
+      );
+    } finally {
+      setPendingAction(null);
+    }
   }
 
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -202,6 +287,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
                 type="button"
                 className={styles.addButton}
                 onClick={handleLibraryToggle}
+                disabled={pendingAction !== null}
               >
                 {isSaved ? (
                   <>
@@ -225,6 +311,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
                     : `Agregar ${game.name} a favoritos`
                 }
                 aria-pressed={isGameFavorite}
+                disabled={pendingAction !== null}
               >
                 <Heart
                   size={20}
@@ -238,6 +325,7 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
               isSaved={isSaved}
               onChange={handleStatusChange}
               onRemove={() => setShowRemoveConfirm(true)}
+              isUpdating={pendingAction === "updating"}
             />
           </div>
         </div>
@@ -251,10 +339,22 @@ export function GameDetails({ game, onClose }: GameDetailsProps) {
           <ConfirmRemoveDialog
             gameName={game.name}
             onConfirm={handleConfirmRemoval}
-            onCancel={() => setShowRemoveConfirm(false)}
+            onCancel={() => {
+              setShowRemoveConfirm(false);
+              setActionError(null);
+            }}
+            isProcessing={pendingAction === "removing"}
+            error={actionError}
           />
         )}
       </article>
+      {actionError && !showRemoveConfirm && (
+        <ErrorMessage
+          message={actionError}
+          variant="overlay"
+          onDismiss={() => setActionError(null)}
+        />
+      )}
     </dialog>
   );
 }

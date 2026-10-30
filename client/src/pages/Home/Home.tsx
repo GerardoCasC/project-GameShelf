@@ -15,9 +15,10 @@ import styles from "./Home.module.css";
 
 interface HomeProps {
   onOpenDetails: (game: Game) => void;
+  onRequireAuth: () => void;
 }
 
-export function Home({ onOpenDetails }: HomeProps) {
+export function Home({ onOpenDetails, onRequireAuth }: HomeProps) {
   //  Games  //
 
   const [games, setGames] = useState<Game[]>([]);
@@ -209,6 +210,7 @@ export function Home({ onOpenDetails }: HomeProps) {
               loadMoreError={loadMoreError}
               onLoadMore={handleLoadMore}
               emptyMessage="No se encontraron juegos."
+              onRequireAuth={onRequireAuth}
             />
           )}
           {libraryGames.length > 0 && (
