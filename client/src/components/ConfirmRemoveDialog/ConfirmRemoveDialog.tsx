@@ -1,16 +1,21 @@
 import { useEffect, useId, useRef } from "react";
+import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import styles from "./ConfirmRemoveDialog.module.css";
 
 interface ConfirmRemoveDialogProps {
   gameName: string;
   onConfirm: () => void;
   onCancel: () => void;
+  isProcessing?: boolean;
+  error?: string | null;
 }
 
 export function ConfirmRemoveDialog({
   gameName,
   onConfirm,
   onCancel,
+  isProcessing = false,
+  error = null,
 }: ConfirmRemoveDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
@@ -52,9 +57,14 @@ export function ConfirmRemoveDialog({
         <strong> {gameName} </strong>
         de tu biblioteca?
       </p>
-
+      {error && <ErrorMessage message={error} />}
       <div className={styles.actions}>
-        <button type="button" onClick={onCancel} autoFocus>
+        <button
+          type="button"
+          onClick={onCancel}
+          autoFocus
+          disabled={isProcessing}
+        >
           Cancelar
         </button>
 
@@ -62,8 +72,9 @@ export function ConfirmRemoveDialog({
           type="button"
           className={styles.confirmButton}
           onClick={onConfirm}
+          disabled={isProcessing}
         >
-          Eliminar
+          {isProcessing ? "Eliminando..." : "Eliminar"}
         </button>
       </div>
     </dialog>

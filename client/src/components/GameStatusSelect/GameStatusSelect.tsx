@@ -17,8 +17,8 @@ interface GameStatusSelectProps {
   isSaved: boolean;
   onChange: (status: GameStatus) => void;
   onRemove?: () => void;
+  isUpdating?: boolean;
 }
-
 const statusOptions = [
   { value: "playing", label: "Jugando", icon: Gamepad2 },
   { value: "pending", label: "Pendiente", icon: Bookmark },
@@ -31,6 +31,7 @@ export function GameStatusSelect({
   isSaved,
   onChange,
   onRemove,
+  isUpdating = false,
 }: GameStatusSelectProps) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
@@ -51,10 +52,12 @@ export function GameStatusSelect({
     };
   }, []);
 
-  const currentLabel = isSaved
-    ? (statusOptions.find((option) => option.value === status)?.label ??
-      "Pendiente")
-    : "Agregar a lista";
+  const currentLabel = isUpdating
+    ? "Actualizando..."
+    : isSaved
+      ? (statusOptions.find((option) => option.value === status)?.label ??
+        "Pendiente")
+      : "Agregar a lista";
 
   function handleSelect(value: GameStatus) {
     onChange(value);
@@ -79,7 +82,13 @@ export function GameStatusSelect({
         }
       }}
     >
-      <summary className={styles.trigger}>
+      <summary
+        className={styles.trigger}
+        aria-disabled={isUpdating}
+        onClick={(event) => {
+          if (isUpdating) event.preventDefault();
+        }}
+      >
         <span className={styles.triggerContent}>
           <CirclePlus size={19} aria-hidden="true" />
           {currentLabel}
@@ -105,6 +114,7 @@ export function GameStatusSelect({
               className={styles.option}
               onClick={() => handleSelect(option.value)}
               aria-pressed={isSaved && status === option.value}
+              disabled={isUpdating}
             >
               <Icon size={19} aria-hidden="true" />
               <span>{option.label}</span>
@@ -120,6 +130,7 @@ export function GameStatusSelect({
                 detailsRef.current?.removeAttribute("open");
                 onRemove();
               }}
+              disabled={isUpdating}
             >
               <Trash2 size={19} aria-hidden="true" />
               <span>Eliminar</span>

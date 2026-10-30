@@ -20,6 +20,7 @@ interface GameSectionProps {
   emptyMessage?: string;
   showStatusSelect?: boolean;
   headingLevel?: "h1" | "h2";
+  onRequireAuth?: () => void;
 }
 
 export function GameSection({
@@ -35,6 +36,7 @@ export function GameSection({
   emptyMessage,
   showStatusSelect = false,
   headingLevel = "h2",
+  onRequireAuth,
 }: GameSectionProps) {
   const titleId = useId();
 
@@ -67,6 +69,7 @@ export function GameSection({
               onOpenDetails={onOpenDetails}
               onGenreClick={onGenreClick}
               showStatusSelect={showStatusSelect}
+              onRequireAuth={onRequireAuth}
             />
           ))}
         </div>

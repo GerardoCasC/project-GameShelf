@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { BookOpen } from "lucide-react";
-
 import { PageLayout } from "../../components/PageLayout/PageLayout";
 import { GameSection } from "../../components/GameSection/GameSection";
+import { Loading } from "../../components/Loading/Loading";
+import { ErrorMessage } from "../../components/ErrorMessage/ErrorMessage";
 
 import {
   LibraryStats,
@@ -26,7 +27,7 @@ const filterLabels: Record<LibraryFilter, string> = {
 };
 
 export function MyLibrary({ onOpenDetails }: MyLibraryProps) {
-  const { library, favorites } = useLibrary();
+  const { library, favorites, isLibraryLoading, libraryError } = useLibrary();
 
   const [selectedFilter, setSelectedFilter] = useState<LibraryFilter>("all");
 
@@ -60,6 +61,19 @@ export function MyLibrary({ onOpenDetails }: MyLibraryProps) {
       : selectedFilter === "all"
         ? "Tu biblioteca está vacía. Explora el catálogo y agrega videojuegos."
         : `No tienes videojuegos en la categoría ${sectionTitle.toLowerCase()}.`;
+
+  if (isLibraryLoading) {
+    return <Loading message="Cargando tu biblioteca..." />;
+  }
+
+  if (libraryError) {
+    return (
+      <ErrorMessage
+        message={libraryError}
+        onRetry={() => window.location.reload()}
+      />
+    );
+  }
 
   return (
     <PageLayout
