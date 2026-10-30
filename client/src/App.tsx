@@ -31,7 +31,7 @@ export function App() {
 
   function openGameDetails(game: Game) {
     void loadGameDetails(
-      () => api.getGameById(game.id),
+      (signal) => api.getGameById(game.id, signal),
       "No se pudieron cargar los detalles",
     );
   }
