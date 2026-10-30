@@ -101,14 +101,17 @@ export function Home({ onOpenDetails, onRequireAuth }: HomeProps) {
 
     async function loadGames() {
       const result = await loadCatalog(
-        () =>
-          api.getGames({
-            search: search.query,
-            genres: selectedGenre,
-            platforms: selectedPlatform,
-            page,
-            page_size: 10,
-          }),
+        (signal) =>
+          api.getGames(
+            {
+              search: search.query,
+              genres: selectedGenre,
+              platforms: selectedPlatform,
+              page,
+              page_size: 10,
+            },
+            signal,
+          ),
         "No se pudieron cargar los juegos.",
       );
 
@@ -143,10 +146,10 @@ export function Home({ onOpenDetails, onRequireAuth }: HomeProps) {
   }, [loadGamesData, retryCount]);
 
   const loadFiltersData = useCallback(() => {
-    void loadFilters(async () => {
+    void loadFilters(async (signal) => {
       const [genresData, platformsData] = await Promise.all([
-        api.getGenres(),
-        api.getPlatforms(),
+        api.getGenres(signal),
+        api.getPlatforms(signal),
       ]);
 
       return {
